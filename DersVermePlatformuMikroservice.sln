@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36408.4 d17.14
+VisualStudioVersion = 17.14.36408.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -12,6 +12,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microservice.Catalog.Api", "Microservice.Catalog.Api\Microservice.Catalog.Api.csproj", "{B3259B42-8E82-431A-90E6-E8B6F040C377}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{2C9B740F-F96A-4AF3-B33D-286378471117}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microservice.Shared", "..\Microservice.Shared\Microservice.Shared.csproj", "{722F169F-5BC2-4D81-8998-CF4303553EA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,10 @@ Global
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{722F169F-5BC2-4D81-8998-CF4303553EA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{722F169F-5BC2-4D81-8998-CF4303553EA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{722F169F-5BC2-4D81-8998-CF4303553EA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{722F169F-5BC2-4D81-8998-CF4303553EA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -35,6 +43,8 @@ Global
 		{BF75DE78-9073-490B-B010-04412D36A0FB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{974F2500-E8FA-49F0-9BE1-42C34EE0E42C} = {BF75DE78-9073-490B-B010-04412D36A0FB}
 		{B3259B42-8E82-431A-90E6-E8B6F040C377} = {974F2500-E8FA-49F0-9BE1-42C34EE0E42C}
+		{2C9B740F-F96A-4AF3-B33D-286378471117} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{722F169F-5BC2-4D81-8998-CF4303553EA9} = {2C9B740F-F96A-4AF3-B33D-286378471117}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3295D5D9-D4C4-44F2-B2DC-3CF2EE8D7E00}
