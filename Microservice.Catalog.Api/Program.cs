@@ -1,5 +1,8 @@
+using Microservice.Catalog.Api;
+using Microservice.Catalog.Api.Features.Categories;
 using Microservice.Catalog.Api.Options;
 using Microservice.Catalog.Api.Repositories;
+using Microservice.Shared.Extentions;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -13,15 +16,15 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMongoOptionExt(); 
 
 builder.Services.AddDatabaseServiceExt();
-
-
-
-
-
-
+builder.Services.AddCommonServiceExt(typeof(CatalogAssembly));
 
 
 var app = builder.Build();
+app.AddCategoryGroupEndpointExt();
+
+
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
