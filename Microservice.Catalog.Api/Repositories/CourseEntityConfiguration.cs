@@ -22,7 +22,7 @@ namespace Microservice.Catalog.Api.Repositories
             builder.Property(x => x.Description).HasElementName("description").HasMaxLength(1000);
             builder.Property(x => x.Price).HasElementName("price");
             builder.Property(x => x.UserId).HasElementName("user_id");
-            builder.Property(x => x.Picture).HasElementName("picture");
+            builder.Property(x => x.ImageUrl).HasElementName("image_url").HasMaxLength(300);
             builder.Property(x => x.CreatedDate).HasElementName("created_date");
             builder.Property(x => x.CategoryId).HasElementName("category_id");
             builder.Ignore(c => c.Category);
