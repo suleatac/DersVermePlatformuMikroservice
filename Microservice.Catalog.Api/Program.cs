@@ -18,13 +18,17 @@ builder.Services.AddMongoOptionExt();
 
 builder.Services.AddDatabaseServiceExt();
 builder.Services.AddCommonServiceExt(typeof(CatalogAssembly));
-
+builder.Services.AddVersioningExt();
 
 var app = builder.Build();
-app.AddCategoryGroupEndpointExt();
-app.AddCourseGroupEndpointExt();
+var apiVersionSet = app.AddVersionSetExt();
+app.AddCategoryGroupEndpointExt(apiVersionSet);
+app.AddCourseGroupEndpointExt(apiVersionSet);
 
-
+app.AddSeedDataExt().ContinueWith(x =>
+{
+    Console.WriteLine(x.IsFaulted ? x.Exception?.Message:"Seed data ekleme iþlemi tamamlandý.");
+});
 
 
 // Configure the HTTP request pipeline.

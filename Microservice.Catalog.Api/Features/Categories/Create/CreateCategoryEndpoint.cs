@@ -15,6 +15,7 @@ namespace Microservice.Catalog.Api.Features.Categories.Create
                 return result.ToGenericResult();
             })
             .WithName("CreateCategory")
+            .MapToApiVersion(1.0)
             .AddEndpointFilter<ValidationFilter<CreateCategoryCommand>>();
 
             return group;

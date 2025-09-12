@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Microservice.Catalog.Api.Features.Categories.GetAll
 {
 
-    public class GetAllCategoryQuery: IRequestByServiceResult<List<CategoryDto>>;
+    public record GetAllCategoryQuery: IRequestByServiceResult<List<CategoryDto>>;
 
     public class  GetAllCategoryQueryHandler(AppDbContext context, IMapper mapper): IRequestHandler<GetAllCategoryQuery, ServiceResult<List<CategoryDto>>>
     {
@@ -33,6 +33,7 @@ namespace Microservice.Catalog.Api.Features.Categories.GetAll
             group.MapGet("/", 
                 async (IMediator mediator) =>
                 (await mediator.Send(new GetAllCategoryQuery())).ToGenericResult())
+                      .MapToApiVersion(1.0)
                   .WithName("GetAllCategoryQuery"); 
             return group;
         }

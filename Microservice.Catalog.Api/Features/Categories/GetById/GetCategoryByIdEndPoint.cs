@@ -50,6 +50,7 @@ namespace Microservice.Catalog.Api.Features.Categories.GetById
             group.MapGet("/{id:guid}",
                 async (Guid id, IMediator mediator, CancellationToken cancellationToken) =>
                     (await mediator.Send(new GetCategoryByIdQuery(id))).ToGenericResult())
+                      .MapToApiVersion(1.0)
                 .WithName("GetByIdCategory");
             return group;
         }

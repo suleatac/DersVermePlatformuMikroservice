@@ -14,6 +14,7 @@ namespace Microservice.Catalog.Api.Features.Courses.Create
                 return result.ToGenericResult();
             })
             .WithName("CreateCourse")
+                 .MapToApiVersion(1.0)
             .Produces<Guid>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound)
