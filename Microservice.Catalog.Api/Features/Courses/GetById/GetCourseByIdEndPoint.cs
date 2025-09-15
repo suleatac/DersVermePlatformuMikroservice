@@ -1,5 +1,4 @@
-﻿using Microservice.Catalog.Api.Features.Categories.GetById;
-using Microservice.Catalog.Api.Features.Courses.Dtos;
+﻿using Microservice.Catalog.Api.Features.Courses.Dtos;
 
 namespace Microservice.Catalog.Api.Features.Courses.GetById
 {

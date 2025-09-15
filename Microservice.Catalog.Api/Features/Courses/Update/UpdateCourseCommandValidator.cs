@@ -1,6 +1,4 @@
-﻿using Microservice.Catalog.Api.Features.Categories.Create;
-
-namespace Microservice.Catalog.Api.Features.Courses.Update
+﻿namespace Microservice.Catalog.Api.Features.Courses.Update
 {
  
 

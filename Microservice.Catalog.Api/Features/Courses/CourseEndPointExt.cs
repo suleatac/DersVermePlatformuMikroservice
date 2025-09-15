@@ -1,7 +1,4 @@
 ﻿using Asp.Versioning.Builder;
-using Microservice.Catalog.Api.Features.Categories.Create;
-using Microservice.Catalog.Api.Features.Categories.GetAll;
-using Microservice.Catalog.Api.Features.Categories.GetById;
 using Microservice.Catalog.Api.Features.Courses.Create;
 using Microservice.Catalog.Api.Features.Courses.Delete;
 using Microservice.Catalog.Api.Features.Courses.GetAll;
@@ -16,7 +13,7 @@ namespace Microservice.Catalog.Api.Features.Courses
     {
         public static void AddCourseGroupEndpointExt(this WebApplication app, ApiVersionSet apiVersionSet)
         {
-            var group = app.MapGroup("/api/v{version:apiVersion}courses").WithTags("Courses");
+            var group = app.MapGroup("/api/v{version:apiVersion}/courses").WithTags("Courses");
             group.CreateCourseGroupItemEndpoint();
             group.GetAllCourseGroupItemEndpoint();
             group.GetByIdCourseGroupItemEndPoint();

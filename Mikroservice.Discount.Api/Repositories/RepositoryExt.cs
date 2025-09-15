@@ -1,7 +1,7 @@
-﻿using Microservice.Catalog.Api.Options;
+﻿using Mikroservice.Discount.Api.Options;
 using MongoDB.Driver;
 
-namespace Microservice.Catalog.Api.Repositories
+namespace Mikroservice.Discount.Api.Repositories
 {
     public static class RepositoryExt
     {

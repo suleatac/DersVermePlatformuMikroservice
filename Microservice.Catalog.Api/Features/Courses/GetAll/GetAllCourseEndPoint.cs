@@ -1,5 +1,4 @@
 ﻿using Microservice.Catalog.Api.Features.Courses.Dtos;
-using Microservice.Catalog.Api.Features.Courses.GetAll;
 
 namespace Microservice.Catalog.Api.Features.Courses.GetAll
 {

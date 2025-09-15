@@ -1,5 +1,4 @@
-﻿using Microservice.Catalog.Api.Features.Categories.Create;
-using Microservice.Shared.Filters;
+﻿using Microservice.Shared.Filters;
 
 namespace Microservice.Catalog.Api.Features.Courses.Create
 {

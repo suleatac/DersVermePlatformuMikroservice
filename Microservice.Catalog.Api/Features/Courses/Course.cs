@@ -1,5 +1,4 @@
 ﻿using Microservice.Catalog.Api.Features.Categories;
-using Microservice.Catalog.Api.Repositories;
 
 namespace Microservice.Catalog.Api.Features.Courses
 {

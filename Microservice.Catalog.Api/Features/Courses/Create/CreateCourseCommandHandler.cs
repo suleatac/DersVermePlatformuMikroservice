@@ -1,7 +1,4 @@
-﻿using Microservice.Catalog.Api.Features.Categories;
-using Microservice.Catalog.Api.Features.Categories.Create;
-
-namespace Microservice.Catalog.Api.Features.Courses.Create
+﻿namespace Microservice.Catalog.Api.Features.Courses.Create
 {
 
     public class CreateCourseCommandHandler(AppDbContext context, IMapper mapper) : IRequestHandler<CreateCourseCommand, ServiceResult<Guid>>

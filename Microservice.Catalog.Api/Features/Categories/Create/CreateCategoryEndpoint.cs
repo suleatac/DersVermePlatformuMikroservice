@@ -1,6 +1,4 @@
-﻿using MediatR;
-using Microservice.Shared.Extentions;
-using Microservice.Shared.Filters;
+﻿using Microservice.Shared.Filters;
 
 namespace Microservice.Catalog.Api.Features.Categories.Create
 {

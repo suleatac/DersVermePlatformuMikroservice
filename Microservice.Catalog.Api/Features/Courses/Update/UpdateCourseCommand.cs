@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-
-namespace Microservice.Catalog.Api.Features.Courses.Update
+﻿namespace Microservice.Catalog.Api.Features.Courses.Update
 {
     public record UpdateCourseCommand(
         Guid Id, 

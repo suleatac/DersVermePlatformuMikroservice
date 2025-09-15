@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 
-namespace Microservice.Catalog.Api.Options
+namespace Mikroservice.Discount.Api.Options
 {
     public static class OptionExt
     {
@@ -13,7 +13,7 @@ namespace Microservice.Catalog.Api.Options
 
 
             services.AddSingleton(sp => sp.GetRequiredService<IOptions<MongoOption>>().Value);
-            
+
 
 
 
