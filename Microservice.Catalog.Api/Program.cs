@@ -17,8 +17,12 @@ builder.Services.AddCommonServiceExt(typeof(CatalogAssembly));
 
 
 var app = builder.Build();
+
+
 var apiVersionSet = app.AddVersionSetExt();
 app.AddCategoryGroupEndpointExt(apiVersionSet);
+
+
 app.AddCourseGroupEndpointExt(apiVersionSet);
 
 app.AddSeedDataExt().ContinueWith(x =>

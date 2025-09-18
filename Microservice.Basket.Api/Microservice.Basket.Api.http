@@ -1,0 +1,12 @@
+@baseAddress = http://localhost:5200
+
+POST {{baseAddress}}/api/v1/baskets/item
+Accept: application/json
+Content-Type: application/json
+{
+  "courseId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "courseName": "xxxx",
+  "coursePrice": 10,
+  "imageUrl": "xxxx"
+}
+###

@@ -1,7 +1,7 @@
 ﻿
 using Mikroservice.Discount.Api.Repositories;
 
-namespace Mikroservice.Discount.Api.Features.Discounts.GetDiscountByCodeQuery
+namespace Mikroservice.Discount.Api.Features.Discounts.GetDiscountByCode
 {
     public class GetDiscountByCodeQueryHandler(AppDbContext context) : IRequestHandler<GetDiscountByCodeQuery, ServiceResult<GetDiscountByCodeQueryResponse>>
     {

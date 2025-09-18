@@ -1,4 +1,6 @@
 ﻿using Asp.Versioning.Builder;
+using Mikroservice.Discount.Api.Features.Discounts.CreateDiscount;
+using Mikroservice.Discount.Api.Features.Discounts.GetDiscountByCode;
 
 namespace Mikroservice.Discount.Api.Features.Discounts
 {
@@ -7,12 +9,8 @@ namespace Mikroservice.Discount.Api.Features.Discounts
         public static void AddDiscountGroupEndpointExt(this WebApplication app, ApiVersionSet apiVersionSet)
         {
             var group = app.MapGroup("/api/v{version:apiVersion}").WithTags("Courses");
-            group.CreateCourseGroupItemEndpoint();
-            group.GetAllCourseGroupItemEndpoint();
-            group.GetByIdCourseGroupItemEndPoint();
-            group.UpdateCourseGroupItemEndpoint();
-            group.DeleteCourseGroupItemEndpoint();
-            group.GetByUserIdCourseGroupItemEndPoint();
+            group.CreateDiscountGroupItemEndpoint();
+            group.GetDiscountByCodeGroupItemEndpoint();
             group.WithApiVersionSet(apiVersionSet);
         }
 

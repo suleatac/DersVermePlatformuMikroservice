@@ -1,6 +1,12 @@
-@Mikroservice.Discount.Api_HostAddress = http://localhost:5045
+@baseAdress = http://localhost:5045
 
 GET {{Mikroservice.Discount.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+@code=ABCABCABCA
+GET {{baseAdress}}/api/v1/ABCABCABCA
 Accept: application/json
 
 ###
