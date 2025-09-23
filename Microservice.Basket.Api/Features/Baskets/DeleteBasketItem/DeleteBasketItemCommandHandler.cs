@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microservice.Basket;
 using Microservice.Basket.Api.Const;
 using Microservice.Basket.Api.Features.Baskets.AddBasketItem;
 using Microservice.Basket.Api.Features.Baskets.Dtos;
@@ -26,16 +27,16 @@ namespace Microservice.Basket.Api.Features.Baskets.DeleteBasketItem
                 return ServiceResult.Error("Basket not found", System.Net.HttpStatusCode.NotFound);
             }
 
-            var currentBasket = System.Text.Json.JsonSerializer.Deserialize<BasketDto>(basketAsString);
-          ;
-            var BasketItemtoDelete = currentBasket?.BasketItems.FirstOrDefault(x => x.Id == request.basketId);
+            var currentBasket = System.Text.Json.JsonSerializer.Deserialize<Data.Basket>(basketAsString);
+          
+            var BasketItemtoDelete = currentBasket?.Items.FirstOrDefault(x => x.Id == request.basketId);
 
             if (BasketItemtoDelete is null)
             {
                return ServiceResult.Error("Basket item not found", System.Net.HttpStatusCode.NotFound);
 
             }
-            currentBasket?.BasketItems.Remove(BasketItemtoDelete);
+            currentBasket?.Items.Remove(BasketItemtoDelete);
 
 
            basketAsString = System.Text.Json.JsonSerializer.Serialize(currentBasket);
@@ -47,10 +48,6 @@ namespace Microservice.Basket.Api.Features.Baskets.DeleteBasketItem
 
         }
 
-        private async Task CreateCacheAsync(BasketDto basket, string cacheKey, CancellationToken cancellationToken)
-        {
-            var basketAsString = System.Text.Json.JsonSerializer.Serialize(basket);
-            await distributedCache.SetStringAsync(cacheKey, basketAsString, token: cancellationToken);
-        }
+       
     }
 }
