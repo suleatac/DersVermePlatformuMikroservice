@@ -11,8 +11,8 @@ namespace Microservice.Basket.Api.Features.Baskets.ApplyDiscountCoupon
         public static RouteGroupBuilder ApplyDiscountCouponGroupItemEndpoint(this RouteGroupBuilder group)
         {
 
-            group.MapPut("/apply-discount-rate", async (IMediator mediator, ApplyDiscountCouponCommand command) => (await mediator.Send(command)).ToGenericResult())
-            .WithName("ApplyDiscountRate")
+            group.MapPut("/apply-discount-coupon", async (IMediator mediator, ApplyDiscountCouponCommand command) => (await mediator.Send(command)).ToGenericResult())
+            .WithName("ApplyDiscountCoupon")
             .MapToApiVersion(1.0)
             .AddEndpointFilter<ValidationFilter<ApplyDiscountCouponCommandValidator>>();
 

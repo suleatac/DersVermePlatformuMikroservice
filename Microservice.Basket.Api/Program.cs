@@ -13,7 +13,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCommonServiceExt(typeof(BasketAssembly));
 builder.Services.AddVersioningExt();
-
+builder.Services.AddScoped<BasketService>();
 
 // Redis Baðlantý ayarlarý
 builder.Services.AddStackExchangeRedisCache(options =>

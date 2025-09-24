@@ -9,20 +9,17 @@ using System.Text.Json;
 
 namespace Microservice.Basket.Api.Features.Baskets.GetBasket
 {
-    public class GetBasketQueryHandler(IDistributedCache distributedCache,IIdentityService identityService, IMapper mapper) : IRequestHandler<GetBasketQuery, ServiceResult<BasketDto>>
+    public class GetBasketQueryHandler( IMapper mapper, BasketService basketService) : IRequestHandler<GetBasketQuery, ServiceResult<BasketDto>>
     {
         public async Task<ServiceResult<BasketDto>> Handle(GetBasketQuery request, CancellationToken cancellationToken)
         {
 
-
-            Guid userId = identityService.GetUserId;
-            var cacheKey = string.Format(BasketConst.BasketCacheKey, userId);
-            var basketAsString = await distributedCache.GetStringAsync(cacheKey, token: cancellationToken);
-            if (string.IsNullOrEmpty(basketAsString))
+            var basketAsJson = await basketService.GetBasketFromCache(cancellationToken);
+            if (string.IsNullOrEmpty(basketAsJson))
             {
                 return ServiceResult<BasketDto>.Error("Basket not found", System.Net.HttpStatusCode.NotFound);
             }
-            var currentBasket = JsonSerializer.Deserialize<Data.Basket>(basketAsString);
+            var currentBasket = JsonSerializer.Deserialize<Data.Basket>(basketAsJson);
 
             var basketDto = mapper.Map<BasketDto>(currentBasket);
 

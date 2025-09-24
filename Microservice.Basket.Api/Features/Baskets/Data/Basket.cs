@@ -10,8 +10,11 @@ namespace Microservice.Basket.Api.Features.Baskets.Data
         public float? DiscountRate { get; set; }
         public string? CouponCode { get; set; }
 
+        [JsonIgnore]
         public bool IsApplyDiscount => DiscountRate is > 0 && !string.IsNullOrEmpty(CouponCode);
+        [JsonIgnore]
         public decimal TotalPrice => Items.Sum(x => x.Price);
+        [JsonIgnore]
         public decimal? TotalPriceWithAppliedDiscount => IsApplyDiscount ? Items.Sum(c => c.PriceByApplyDiscountRate) : TotalPrice;
         public void ApplyNewDiscount(string coupon, float discountRate)
         {
@@ -24,7 +27,7 @@ namespace Microservice.Basket.Api.Features.Baskets.Data
         }
         public void ApplyAvailableDiscount()
         {
-         
+         if (!IsApplyDiscount) return;
             foreach (var basketItem in Items)
             {
                 basketItem.PriceByApplyDiscountRate = basketItem.Price - (basketItem.Price * (decimal)(DiscountRate / 100));
@@ -43,7 +46,7 @@ namespace Microservice.Basket.Api.Features.Baskets.Data
 
         public Basket(Guid userId, List<BasketItem> items)
         {
-            UserId=userId;
+
             Items = items;
         }
 

@@ -12,27 +12,26 @@ using System.Threading;
 namespace Microservice.Basket.Api.Features.Baskets.AddBasketItem
 {
 
-    public class AddBasketItemCommandHandler(IDistributedCache distributedCache,IIdentityService identityService) : IRequestHandler<AddBasketItemCommand, ServiceResult>
+    public class AddBasketItemCommandHandler(IIdentityService identityService,BasketService basketService) : IRequestHandler<AddBasketItemCommand, ServiceResult>
     {
         public async Task<ServiceResult> Handle(AddBasketItemCommand request, CancellationToken cancellationToken)
         {
-            Guid userId = identityService.GetUserId;
-            var cacheKey = string.Format(BasketConst.BasketCacheKey, userId);
-            var basketAsString = await distributedCache.GetStringAsync(cacheKey, cancellationToken);
+    
+            var basketAsJson = await basketService.GetBasketFromCache(cancellationToken);
             Data.Basket? currentBasket;
             var newBasketItem = new BasketItem(request.CourseId, request.CourseName, request.ImageUrl, request.CoursePrice, null);
 
             //fast fail
 
-            if (string.IsNullOrEmpty(basketAsString))
+            if (string.IsNullOrEmpty(basketAsJson))
             {
                 //currentBasket = new Data.Basket(userId, [newBasketItem]);
-                currentBasket = new Data.Basket(userId, new List<BasketItem> { newBasketItem });
-                await CreateCacheAsync(currentBasket!, cacheKey, cancellationToken);
+                currentBasket = new Data.Basket(identityService.GetUserId, new List<BasketItem> { newBasketItem });
+                await basketService.CreateCacheAsync(currentBasket, cancellationToken);
                 return ServiceResult.SuccessAsNoContent();
             }
 
-            currentBasket = System.Text.Json.JsonSerializer.Deserialize<Data.Basket>(basketAsString);
+            currentBasket = System.Text.Json.JsonSerializer.Deserialize<Data.Basket>(basketAsJson);
             var existBasketItem = currentBasket?.Items.FirstOrDefault(x => x.Id == request.CourseId);
 
             if (existBasketItem is not null)
@@ -44,16 +43,28 @@ namespace Microservice.Basket.Api.Features.Baskets.AddBasketItem
             currentBasket?.Items.Add(newBasketItem);
 
 
-            await CreateCacheAsync(currentBasket!, cacheKey, cancellationToken);
+
+
+
+
+
+
+            currentBasket?.ApplyAvailableDiscount();
+
+
+
+
+
+
+
+
+
+            await basketService.CreateCacheAsync(currentBasket, cancellationToken);
 
             return ServiceResult.SuccessAsNoContent();
 
         }
 
-        private async Task CreateCacheAsync( Data.Basket basket, string cacheKey, CancellationToken cancellationToken)
-        {
-           var basketAsString = System.Text.Json.JsonSerializer.Serialize(basket);
-            await distributedCache.SetStringAsync(cacheKey, basketAsString, token: cancellationToken);
-        }
+     
     }
 }

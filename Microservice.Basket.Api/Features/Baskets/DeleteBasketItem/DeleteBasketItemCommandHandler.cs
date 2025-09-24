@@ -10,24 +10,22 @@ using Microsoft.Extensions.Caching.Distributed;
 namespace Microservice.Basket.Api.Features.Baskets.DeleteBasketItem
 {
   
-    public class DeleteBasketItemCommandHandler(IDistributedCache distributedCache, IIdentityService identityService) : IRequestHandler<DeleteBasketItemCommand, ServiceResult>
+    public class DeleteBasketItemCommandHandler( BasketService basketService) : IRequestHandler<DeleteBasketItemCommand, ServiceResult>
     {
         public async Task<ServiceResult> Handle(DeleteBasketItemCommand request, CancellationToken cancellationToken)
         {
-            Guid userId = identityService.GetUserId;
-            var cacheKey = string.Format(BasketConst.BasketCacheKey, userId);
-            var basketAsString = await distributedCache.GetStringAsync(cacheKey, cancellationToken);
-          
- 
+            var basketAsJson = await basketService.GetBasketFromCache(cancellationToken);
+
+
             //fast fail
 
-            if (string.IsNullOrEmpty(basketAsString))
+            if (string.IsNullOrEmpty(basketAsJson))
             {
                 
                 return ServiceResult.Error("Basket not found", System.Net.HttpStatusCode.NotFound);
             }
 
-            var currentBasket = System.Text.Json.JsonSerializer.Deserialize<Data.Basket>(basketAsString);
+            var currentBasket = System.Text.Json.JsonSerializer.Deserialize<Data.Basket>(basketAsJson);
           
             var BasketItemtoDelete = currentBasket?.Items.FirstOrDefault(x => x.Id == request.basketId);
 
@@ -39,8 +37,8 @@ namespace Microservice.Basket.Api.Features.Baskets.DeleteBasketItem
             currentBasket?.Items.Remove(BasketItemtoDelete);
 
 
-           basketAsString = System.Text.Json.JsonSerializer.Serialize(currentBasket);
-            await distributedCache.SetStringAsync(cacheKey, basketAsString, token: cancellationToken);
+           basketAsJson = System.Text.Json.JsonSerializer.Serialize(currentBasket);
+            await basketService.CreateCacheAsync(currentBasket, cancellationToken);
 
             return ServiceResult.SuccessAsNoContent();
 
