@@ -12,7 +12,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddCommonServiceExt(typeof(BasketAssembly));
+
+// Version Ayarlarý
 builder.Services.AddVersioningExt();
+
+
+
+
 builder.Services.AddScoped<BasketService>();
 
 // Redis Baðlantý ayarlarý

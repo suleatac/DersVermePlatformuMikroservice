@@ -6,23 +6,26 @@ using System.Threading.Tasks;
 
 namespace Microservice.Order.Domain.Entities
 {
-    public class OrderItem:BaseEntity<int>
+    public class OrderItem : BaseEntity<int>
     {
         public Guid ProductId { get; set; }
-        public string ProductName { get; set; }=null!;
+        public string ProductName { get; set; } = null!;
         public decimal UnitPrice { get; set; }
-        public void SetItem(Guid productId,string productName,decimal unitPrice)
+        public Guid OrderId { get; set; }
+        public Order Order { get; set; } = null!;
+        public void SetItem(Guid productId, string productName, decimal unitPrice)
         {
-            if (string.IsNullOrEmpty(ProductName)) { 
-            
-            throw new ArgumentNullException("Product Name can not be empty");
+            if (string.IsNullOrEmpty(ProductName))
+            {
+
+                throw new ArgumentNullException(nameof(productName), "Product Name can not be empty");
 
             }
 
 
-            if(UnitPrice<=0)
+            if (UnitPrice <= 0)
             {
-                throw new ArgumentOutOfRangeException("Unit Price can not be less than or equal to zero");
+                throw new ArgumentOutOfRangeException(nameof(unitPrice), "Unit Price can not be less than or equal to zero");
             }
 
 
@@ -41,7 +44,7 @@ namespace Microservice.Order.Domain.Entities
                 throw new ArgumentNullException("Unit Price can not be less than or equal to zero");
             }
             this.UnitPrice = newPrice;
-        }   
+        }
 
 
         public void ApplyDiscount(double discountAmount)
@@ -50,7 +53,7 @@ namespace Microservice.Order.Domain.Entities
             {
                 throw new ArgumentNullException("Discount percentage must be between 0 and 100");
             }
-           this.UnitPrice=this.UnitPrice - (this.UnitPrice * (decimal)(discountAmount / 100));
+            this.UnitPrice = this.UnitPrice - (this.UnitPrice * (decimal)(discountAmount / 100));
         }
 
 

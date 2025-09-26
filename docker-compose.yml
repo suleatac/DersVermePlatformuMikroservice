@@ -58,7 +58,6 @@ services:
       - "6379:6379"
     volumes:
       - redis.db.basket.volume:/data
-
   redis.db.basket.ui:
     image: rediscommander/redis-commander:latest
     container_name: redis.db.basket.ui.container
@@ -73,8 +72,21 @@ services:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
       HTTP_USER: ${REDIS_UI_USERNAME}
       HTTP_PASSWORD: ${REDIS_UI_PASSWORD}
+  sqlserver.db.order:
+    restart: always
+    user: root # user: "1000:1000" # SQL Server needs to run with its own permissions
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver.db.order.container
+    environment:
+     SA_PASSWORD: "${MSSQL_SA_PASSWORD}"
+     ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver.db.order.volume:/var/opt/mssql
 
 volumes:
   mongo.db.catalog.volume:
   mongo.db.discount.volume:  
   redis.db.basket.volume:    
+  sqlserver.db.order.volume:  

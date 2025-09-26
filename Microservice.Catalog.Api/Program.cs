@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+builder.Services.AddVersioningExt();
 // Mongo ayarlarý
 builder.Services.AddMongoOptionExt(); 
 
