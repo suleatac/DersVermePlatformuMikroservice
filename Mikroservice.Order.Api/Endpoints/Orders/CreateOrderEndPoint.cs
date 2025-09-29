@@ -24,7 +24,7 @@ namespace Mikroservice.Order.Api.Endpoints.Orders
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status500InternalServerError)
-            .AddEndpointFilter<ValidationFilter<CreateOrderCommandValidator>>();
+            .AddEndpointFilter<ValidationFilter<CreateOrderCommand>>();
 
             return group;
         }

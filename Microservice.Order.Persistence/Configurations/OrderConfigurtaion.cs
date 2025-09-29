@@ -14,7 +14,7 @@ namespace Microservice.Order.Persistence.Configurations
         {
             builder.HasKey(o => o.Id);
             builder.Property(o => o.Id).ValueGeneratedNever();
-            builder.Property(o => o.Code).IsRequired().HasMaxLength(10);
+            builder.Property(o => o.Code).IsRequired();
             builder.Property(o => o.BuyerId).IsRequired();
             builder.Property(o => o.Status).IsRequired().HasMaxLength(50);
             builder.Property(o => o.TotalPrice).IsRequired().HasColumnType("decimal(18,2)");

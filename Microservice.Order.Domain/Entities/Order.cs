@@ -47,7 +47,20 @@ namespace Microservice.Order.Domain.Entities
 
         public void AddOrderItem(Guid productId, string productName, decimal unitPrice)
         {
-         var orderItem= new OrderItem();
+
+
+            if (DiscountRate.HasValue)
+            {
+                unitPrice -= unitPrice * (decimal)DiscountRate.Value / 100;
+            }
+
+
+
+
+
+
+
+            var orderItem= new OrderItem();
             orderItem.SetItem( productId, productName, unitPrice);
 
             var existingItem = OrderItems.FirstOrDefault(i => i.IsSameItem(orderItem));
@@ -91,10 +104,15 @@ namespace Microservice.Order.Domain.Entities
         private void RecalculateTotalPrice()
         {
             TotalPrice = OrderItems.Sum(i => i.UnitPrice);
-            if (DiscountRate.HasValue && DiscountRate > 0)
-            {
-                TotalPrice = TotalPrice - (TotalPrice * (decimal)(DiscountRate.Value / 100));
-            }
+          
+
+
+
+
+
+
+
+
         }
 
 

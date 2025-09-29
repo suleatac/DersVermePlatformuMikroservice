@@ -15,7 +15,7 @@ namespace Mikroservice.Discount.Api.Features.Discounts.CreateDiscount
             })
             .WithName("CreateDiscount")
             .MapToApiVersion(1.0)
-            .AddEndpointFilter<ValidationFilter<CreateDiscountCommandValidator>>();
+            .AddEndpointFilter<ValidationFilter<CreateDiscountCommand>>();
 
             return group;
         }

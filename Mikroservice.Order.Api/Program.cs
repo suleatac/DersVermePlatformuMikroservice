@@ -1,3 +1,4 @@
+using Microservice.Order.Application;
 using Microservice.Order.Application.Contracts.Repositories;
 using Microservice.Order.Application.Contracts.UnitOfWorks;
 using Microservice.Order.Persistence;
@@ -16,6 +17,13 @@ builder.Services.AddOpenApi();
 
 // Version ayarlarý
 builder.Services.AddVersioningExt();
+
+builder.Services.AddCommonServiceExt(typeof(OrderApplicationAssembly));
+//builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(OrderAssembly)));
+
+
+
+
 
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

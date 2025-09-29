@@ -15,7 +15,7 @@ namespace Microservice.Order.Domain.Entities
         public Order Order { get; set; } = null!;
         public void SetItem(Guid productId, string productName, decimal unitPrice)
         {
-            if (string.IsNullOrEmpty(ProductName))
+            if (string.IsNullOrEmpty(productName))
             {
 
                 throw new ArgumentNullException(nameof(productName), "Product Name can not be empty");
@@ -23,7 +23,7 @@ namespace Microservice.Order.Domain.Entities
             }
 
 
-            if (UnitPrice <= 0)
+            if (unitPrice <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(unitPrice), "Unit Price can not be less than or equal to zero");
             }

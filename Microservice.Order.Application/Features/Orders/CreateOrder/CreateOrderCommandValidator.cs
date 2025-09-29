@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using FluentValidation.Validators;
-using Microservice.Order.Application.Features.Orders.Create;
+using Microservice.Order.Application.Features.Orders.CreateOrder;
 
-namespace Microservice.Catalog.Api.Features.Courses.Create
+namespace Microservice.Catalog.Api.Features.Courses.CreateOrder
 {
 
 

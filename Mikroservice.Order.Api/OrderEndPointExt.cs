@@ -10,7 +10,7 @@ namespace Mikroservice.Order.Api
         {
             var group = app.MapGroup("/api/v{version:apiVersion}/orders").WithTags("Orders");
             group.CreateOrderGroupItemEndpoint();
-
+            group.GetOrdersGroupItemEndpoint();
             group.WithApiVersionSet(apiVersionSet);
         }
 

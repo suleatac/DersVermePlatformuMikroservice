@@ -6,7 +6,7 @@ using Microservice.Shared;
 using Microservice.Shared.Services;
 using System.Net;
 
-namespace Microservice.Order.Application.Features.Orders.Create
+namespace Microservice.Order.Application.Features.Orders.CreateOrder
 {
     public class CreateOrderCommandHandler
         (
