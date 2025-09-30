@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.0.11018.127 d18.0
+VisualStudioVersion = 18.0.11018.127
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -44,6 +44,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microservice.Order.Application", "Microservice.Order.Application\Microservice.Order.Application.csproj", "{E948504E-51B5-4D30-90B2-9B837A7E55AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microservice.Order.Persistence", "Microservice.Order.Persistence\Microservice.Order.Persistence.csproj", "{E9DEC5ED-08DC-45B0-B71B-605BDED0861C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "payment", "payment", "{CED41E52-8360-4B85-88D1-4410F9BB8631}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microservice.Payment.Api", "Microservice.Payment.Api\Microservice.Payment.Api.csproj", "{4A07E7F8-2544-4614-8923-FCC7024FAE5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +95,10 @@ Global
 		{E9DEC5ED-08DC-45B0-B71B-605BDED0861C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9DEC5ED-08DC-45B0-B71B-605BDED0861C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9DEC5ED-08DC-45B0-B71B-605BDED0861C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A07E7F8-2544-4614-8923-FCC7024FAE5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A07E7F8-2544-4614-8923-FCC7024FAE5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A07E7F8-2544-4614-8923-FCC7024FAE5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A07E7F8-2544-4614-8923-FCC7024FAE5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,6 +123,8 @@ Global
 		{7F417FAE-050F-4C65-8888-73F4242216B3} = {735072E4-04D6-49FA-BB59-DF876F36E007}
 		{E948504E-51B5-4D30-90B2-9B837A7E55AC} = {735072E4-04D6-49FA-BB59-DF876F36E007}
 		{E9DEC5ED-08DC-45B0-B71B-605BDED0861C} = {9784DD7D-F0B4-4C92-A16B-16BCF4687166}
+		{CED41E52-8360-4B85-88D1-4410F9BB8631} = {BF75DE78-9073-490B-B010-04412D36A0FB}
+		{4A07E7F8-2544-4614-8923-FCC7024FAE5D} = {CED41E52-8360-4B85-88D1-4410F9BB8631}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3295D5D9-D4C4-44F2-B2DC-3CF2EE8D7E00}

@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using Microservice.Catalog.Api.Features.Courses.Create;
-using Microservice.Order.Application.Features.Orders.Create;
+
+using Microservice.Order.Application.Features.Orders.CreateOrder;
 using Microservice.Shared.Extentions;
 using Microservice.Shared.Filters;
 using Microsoft.AspNetCore.Mvc;
