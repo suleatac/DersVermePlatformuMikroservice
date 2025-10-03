@@ -12,6 +12,7 @@ namespace Microservice.Payment.Api.Features.Payment.Create
             group.MapPost("/", async ([FromBody]CreatePaymentCommand createPaymentCommand, IMediator mediator) =>
            (await mediator.Send(createPaymentCommand)).ToGenericResult())
             .WithName("CreatePayment")
+
             .MapToApiVersion(1,0)
             .Produces<Guid>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)

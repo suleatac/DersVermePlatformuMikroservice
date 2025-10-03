@@ -1,7 +1,6 @@
 ﻿using Asp.Versioning.Builder;
-using Mikroservice.Order.Api.Endpoints.Orders;
 
-namespace Mikroservice.Order.Api
+namespace Mikroservice.Order.Api.Endpoints.Orders
 {
 
     public static class OrderEndPointExt
@@ -12,6 +11,7 @@ namespace Mikroservice.Order.Api
             group.CreateOrderGroupItemEndpoint();
             group.GetOrdersGroupItemEndpoint();
             group.WithApiVersionSet(apiVersionSet);
+            group.RequireAuthorization();
         }
 
 

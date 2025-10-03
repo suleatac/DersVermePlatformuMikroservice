@@ -11,6 +11,7 @@ namespace Microservice.Payment.Api.Features.Payment.GetAllPaymentsByUserId
             group.MapGet("", async (IMediator mediator) =>
            (await mediator.Send(new GetAllPaymentsByUserIdQuery())).ToGenericResult())
             .WithName("GetAllPaymentsByUserId")
+           
             .MapToApiVersion(1, 0)
             .Produces<Guid>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)

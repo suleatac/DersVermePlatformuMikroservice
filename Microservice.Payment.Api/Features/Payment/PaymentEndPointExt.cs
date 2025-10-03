@@ -12,6 +12,7 @@ namespace Microservice.Payment.Api.Features.Payment
             var group = app.MapGroup("/api/v{version:apiVersion}/payments").WithTags("Payment");
             group.CreatePaymentGroupItemEndPoint();
             group.GetAllPaymentsByUserIdGroupItemEndPoint();
+            group.RequireAuthorization("password");
             group.WithApiVersionSet(apiVersionSet);
         }
 

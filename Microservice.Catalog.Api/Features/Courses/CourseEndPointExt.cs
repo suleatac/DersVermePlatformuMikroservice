@@ -21,6 +21,7 @@ namespace Microservice.Catalog.Api.Features.Courses
             group.DeleteCourseGroupItemEndpoint();
             group.GetByUserIdCourseGroupItemEndPoint();
             group.WithApiVersionSet(apiVersionSet);
+            group.RequireAuthorization();
         }
 
 

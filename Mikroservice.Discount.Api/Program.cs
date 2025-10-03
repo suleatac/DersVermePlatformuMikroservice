@@ -25,11 +25,22 @@ builder.Services.AddVersioningExt();
 builder.Services.AddMongoOptionExt();
 builder.Services.AddDatabaseServiceExt();
 
+//Authentication ayarlarý
+builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
+
 
 
 
 
 var app = builder.Build();
+
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+
+
+
 
 app.AddDiscountGroupEndpointExt(app.AddVersionSetExt());
 // Configure the HTTP request pipeline.

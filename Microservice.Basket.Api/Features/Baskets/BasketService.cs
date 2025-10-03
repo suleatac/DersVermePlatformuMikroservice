@@ -9,7 +9,7 @@ namespace Microservice.Basket.Api.Features.Baskets
     {
         private string GetCacheKey()
         {
-            return string.Format(BasketConst.BasketCacheKey, identityService.GetUserId);
+            return string.Format(BasketConst.BasketCacheKey, identityService.UserId);
         }
 
         public Task<string?> GetBasketFromCache(CancellationToken cancellationToken)

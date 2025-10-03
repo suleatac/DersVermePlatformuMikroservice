@@ -12,6 +12,7 @@ namespace Mikroservice.Discount.Api.Features.Discounts
             group.CreateDiscountGroupItemEndpoint();
             group.GetDiscountByCodeGroupItemEndpoint();
             group.WithApiVersionSet(apiVersionSet);
+            group.RequireAuthorization();
         }
 
 

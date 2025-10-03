@@ -13,6 +13,7 @@ namespace Microservice.File.Api.Features.File
             group.UploadFileGroupItemEndpoint();
             group.DeleteFileGroupItemEndpoint();
             group.WithApiVersionSet(apiVersionSet);
+            group.RequireAuthorization();
         }
 
     }

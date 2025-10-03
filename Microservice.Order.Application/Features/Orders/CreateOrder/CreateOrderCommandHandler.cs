@@ -45,7 +45,7 @@ namespace Microservice.Order.Application.Features.Orders.CreateOrder
         
             var order = Domain.Entities.Order.CreateUnPaidOrder
                 (
-                    identityService.GetUserId,
+                    identityService.UserId,
                     newAddress.Id,
                     request.DiscountRate
                 );

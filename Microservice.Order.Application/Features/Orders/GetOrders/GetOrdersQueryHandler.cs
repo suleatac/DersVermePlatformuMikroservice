@@ -18,7 +18,7 @@ namespace Microservice.Order.Application.Features.Orders.GetOrders
     {
         public async Task<ServiceResult<List<GetOrdersResponse>>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
         {
-            var orders = await orderRepository.GetOrdersByBuyerIdAsync(identityService.GetUserId);
+            var orders = await orderRepository.GetOrdersByBuyerIdAsync(identityService.UserId);
 
 
             if (!orders.Any())

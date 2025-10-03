@@ -14,7 +14,8 @@ builder.Services.AddMongoOptionExt();
 
 builder.Services.AddDatabaseServiceExt();
 builder.Services.AddCommonServiceExt(typeof(CatalogAssembly));
-
+//Authentication ayarlarý
+builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 var app = builder.Build();
 
@@ -29,7 +30,8 @@ app.AddSeedDataExt().ContinueWith(x =>
 {
     Console.WriteLine(x.IsFaulted ? x.Exception?.Message:"Seed data ekleme iþlemi tamamlandý.");
 });
-
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -10,7 +10,7 @@ namespace Microservice.Payment.Api.Features.Payment.GetAllPaymentsByUserId
     {
         public async Task<ServiceResult<List<GetAllPaymentsByUserIdResponse>>> Handle(GetAllPaymentsByUserIdQuery request, CancellationToken cancellationToken)
         {
-            var userId = identityService.GetUserId;
+            var userId = identityService.UserId;
             var payments = await context.Payments
                 .Where(p => p.UserId == userId)
                 .Select(p => new GetAllPaymentsByUserIdResponse(p.Id, p.OrderCode, p.Amount.ToString("C"), p.Created, p.Status))

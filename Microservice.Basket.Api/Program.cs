@@ -27,10 +27,12 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
 });
 
-
+//Authentication ayarlarý
+builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 var app = builder.Build();
-
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.AddBasketGroupEndpointExt(app.AddVersionSetExt());
 

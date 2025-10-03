@@ -26,7 +26,7 @@ namespace Microservice.Basket.Api.Features.Baskets.AddBasketItem
             if (string.IsNullOrEmpty(basketAsJson))
             {
                 //currentBasket = new Data.Basket(userId, [newBasketItem]);
-                currentBasket = new Data.Basket(identityService.GetUserId, new List<BasketItem> { newBasketItem });
+                currentBasket = new Data.Basket(identityService.UserId, new List<BasketItem> { newBasketItem });
                 await basketService.CreateCacheAsync(currentBasket, cancellationToken);
                 return ServiceResult.SuccessAsNoContent();
             }

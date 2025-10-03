@@ -24,6 +24,9 @@ builder.Services.AddVersioningExt();
 
 
 
+//Authentication ayarlarý
+builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
+
 
 
 
@@ -36,6 +39,20 @@ builder.Services.AddVersioningExt();
 var app = builder.Build();
 app.AddFileGroupEndpointExt(app.AddVersionSetExt());
 app.UseStaticFiles();
+
+
+
+
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+
+
+
+
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

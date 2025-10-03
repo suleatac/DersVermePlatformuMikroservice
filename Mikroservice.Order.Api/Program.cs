@@ -6,7 +6,7 @@ using Microservice.Order.Persistence.Repositories;
 using Microservice.Order.Persistence.UnitOfWork;
 using Microservice.Shared.Extentions;
 using Microsoft.EntityFrameworkCore;
-using Mikroservice.Order.Api;
+using Mikroservice.Order.Api.Endpoints.Orders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +21,8 @@ builder.Services.AddVersioningExt();
 builder.Services.AddCommonServiceExt(typeof(OrderApplicationAssembly));
 //builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(OrderAssembly)));
 
+//Authentication ayarlarý
+builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 
 
@@ -61,6 +63,8 @@ app.AddOrderGroupEndpointExt(apiVersionSet);
 
 
 
+app.UseAuthentication();
+app.UseAuthorization();
 
 
 

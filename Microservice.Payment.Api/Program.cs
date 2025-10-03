@@ -18,6 +18,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCommonServiceExt(typeof(PaymentAssembly));
 builder.Services.AddVersioningExt();
 
+//Authentication ayarlarý
+builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
+
+
 
 //InMemory Db ayarlarý
 builder.Services.AddDbContext<AppDbContext>(options => { 
@@ -34,7 +38,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-
+app.UseAuthentication();
+app.UseAuthorization();
 
 
 app.Run();
