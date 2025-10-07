@@ -1,3 +1,4 @@
+using Microservice.Bus;
 using Microservice.File.Api;
 using Microservice.File.Api.Features.File;
 using Microservice.Shared.Extentions;
@@ -22,11 +23,13 @@ builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider( Path.Comb
 builder.Services.AddCommonServiceExt(typeof(FileAssembly));
 builder.Services.AddVersioningExt();
 
+// MassTransit-RabbitMQ Ayarlarý
+builder.Services.AddMasstransitExt(builder.Configuration);
+
 
 
 //Authentication ayarlarý
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
-
 
 
 

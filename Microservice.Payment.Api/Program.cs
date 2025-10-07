@@ -1,3 +1,4 @@
+using Microservice.Bus;
 using Microservice.Payment.Api;
 using Microservice.Payment.Api.Features.Payment;
 using Microservice.Payment.Api.Repositories;
@@ -18,6 +19,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCommonServiceExt(typeof(PaymentAssembly));
 builder.Services.AddVersioningExt();
 
+// MassTransit-RabbitMQ Ayarlarý
+builder.Services.AddCommonMasstransitExt(builder.Configuration);
+
+
+
+
 //Authentication ayarlarý
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
@@ -27,6 +34,9 @@ builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 builder.Services.AddDbContext<AppDbContext>(options => { 
     options.UseInMemoryDatabase("Payment-In-MemoryDb");
 });
+
+
+
 
 var app = builder.Build();
 app.AddPaymentGroupEndpointExt(app.AddVersionSetExt());

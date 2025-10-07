@@ -1,5 +1,6 @@
 using Microservice.Basket.Api;
 using Microservice.Basket.Api.Features.Baskets;
+using Microservice.Bus;
 using Microservice.Shared.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,11 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 builder.Services.AddCommonServiceExt(typeof(BasketAssembly));
+
+// MassTransit-RabbitMQ Ayarlarý
+builder.Services.AddMasstransitExt(builder.Configuration);
 
 // Version Ayarlarý
 builder.Services.AddVersioningExt();
@@ -45,7 +50,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+
 
 
 

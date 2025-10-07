@@ -1,11 +1,4 @@
-﻿using MassTransit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Microservice.Order.Domain.Entities
+﻿namespace Microservice.Order.Domain.Entities
 {
     public class Order:BaseEntity<Guid>
     {
@@ -25,7 +18,7 @@ namespace Microservice.Order.Domain.Entities
         public static string GenerateOrderCode()
         {
       
-            return NewId.NextSequentialGuid().ToString();
+            return Guid.CreateVersion7().ToString();
         }
 
         public static Order CreateUnPaidOrder(Guid buyerId, int addressId, float? discountRate)
@@ -33,7 +26,7 @@ namespace Microservice.Order.Domain.Entities
    
             var order = new Order
             {
-                Id=NewId.NextGuid(),
+                Id=Guid.CreateVersion7(),
                 Code = GenerateOrderCode(),
                 Created = DateTime.UtcNow,
                 BuyerId = buyerId,

@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using MassTransit;
+using MediatR;
+using Microservice.Order.Application.Contracts.Refit.PaymentService;
 using Microservice.Order.Application.Contracts.Repositories;
 using Microservice.Order.Application.Contracts.UnitOfWorks;
 using Microservice.Order.Domain.Entities;
@@ -13,7 +15,9 @@ namespace Microservice.Order.Application.Features.Orders.CreateOrder
            IOrderRepository orderRepository,
            IGenericRepository<int, Address> addressRepository,
            IIdentityService identityService,
-           IUnitOfWork unitOfWork
+           IUnitOfWork unitOfWork,
+           IPublishEndpoint publishEndpoint,
+           IPaymentService paymentService
         )
         : IRequestHandler<CreateOrderCommand, ServiceResult>
     {
@@ -60,20 +64,21 @@ namespace Microservice.Order.Application.Features.Orders.CreateOrder
 
             await unitOfWork.CommitChangesAsync(cancellationToken);
 
-  
+            CreatePaymentRequest paymentRequest = new CreatePaymentRequest(order.Code,request.Payment.CardNumber, request.Payment.CardName, request.Payment.Expiration, request.Payment.CVV,order.TotalPrice);
+           var paymentResponse = await paymentService.CreateAsync(paymentRequest);
+
+            if(paymentResponse.Status==false || paymentResponse.PaymentId==null)
+            {
+                return ServiceResult.Error("Payment failed", paymentResponse.ErrorMessage ?? "Payment service returned an error", HttpStatusCode.InternalServerError);
+            }
 
 
-            var paymentId = Guid.NewGuid();
-
-            //pAYMENT işlemlerİ yapılacak
-
-
-            order.MarkAsPaid(paymentId);
+            order.MarkAsPaid(paymentResponse.PaymentId!.Value);
 
             orderRepository.Update(order);
             await unitOfWork.CommitChangesAsync(cancellationToken);
 
-
+            await publishEndpoint.Publish(new Bus.Events.OrderCreatedEvent(order.Id,identityService.UserId),cancellationToken);
 
             return ServiceResult.SuccessAsNoContent();
 

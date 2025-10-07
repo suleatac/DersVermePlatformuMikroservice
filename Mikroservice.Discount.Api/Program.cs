@@ -1,4 +1,5 @@
 using Asp.Versioning.Builder;
+using Microservice.Bus;
 using Mikroservice.Discount.Api;
 using Mikroservice.Discount.Api.Features.Discounts;
 using Mikroservice.Discount.Api.Options;
@@ -20,6 +21,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCommonServiceExt(typeof(DiscountAssembly));
 builder.Services.AddVersioningExt();
 
+// MassTransit-RabbitMQ Ayarlarý
+builder.Services.AddCommonMasstransitExt(builder.Configuration);
+
+
 
 // Mongo ayarlarý
 builder.Services.AddMongoOptionExt();
@@ -27,7 +32,6 @@ builder.Services.AddDatabaseServiceExt();
 
 //Authentication ayarlarý
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
-
 
 
 
@@ -51,7 +55,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+
 
 app.Run();
 

@@ -1,4 +1,5 @@
 ﻿using Microservice.Shared.Filters;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Microservice.Catalog.Api.Features.Courses.Create
 {
@@ -7,7 +8,7 @@ namespace Microservice.Catalog.Api.Features.Courses.Create
 
         public static RouteGroupBuilder CreateCourseGroupItemEndpoint(this RouteGroupBuilder group)
         {
-            group.MapPost("/", async (IMediator mediator, CreateCourseCommand command) =>
+            group.MapPost("/", async (IMediator mediator, [FromForm]CreateCourseCommand command) =>
             {
                 var result = await mediator.Send(command);
                 return result.ToGenericResult();
@@ -18,7 +19,8 @@ namespace Microservice.Catalog.Api.Features.Courses.Create
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status500InternalServerError)
-            .AddEndpointFilter<ValidationFilter<CreateCourseCommand>>();
+            .AddEndpointFilter<ValidationFilter<CreateCourseCommand>>()
+            .DisableAntiforgery();
 
             return group;
         }

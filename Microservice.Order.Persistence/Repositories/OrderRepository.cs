@@ -1,4 +1,5 @@
 ﻿using Microservice.Order.Application.Contracts.Repositories;
+using Microservice.Order.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,20 +9,23 @@ using System.Threading.Tasks;
 
 namespace Microservice.Order.Persistence.Repositories
 {
-    public class OrderRepository(AppDbContext context): GenericRepository<Guid, Domain.Entities.Order>(context), IOrderRepository
+    public class OrderRepository(AppDbContext context) : GenericRepository<Guid, Domain.Entities.Order>(context), IOrderRepository
     {
 
 
         public Task<List<Domain.Entities.Order>> GetOrdersByBuyerIdAsync(Guid buyerId)
         {
-            var orders = context.Orders.Where(o => o.BuyerId == buyerId).Include(x=>x.OrderItems).OrderByDescending(x=>x.Created).ToListAsync();
+            var orders = context.Orders.Where(o => o.BuyerId == buyerId).Include(x => x.OrderItems).OrderByDescending(x => x.Created).ToListAsync();
             return orders;
         }
 
+        public async Task SetStatus(string orderCode, Guid paymentId, OrderStatus status)
+        {
+            var order = await context.Orders.FirstOrDefaultAsync(x => x.Code == orderCode);
+            order.PaymentId = paymentId;
+            order.Status = status;
+            context.Orders.Update(order);
 
-
-
-
-
+        }
     }
 }

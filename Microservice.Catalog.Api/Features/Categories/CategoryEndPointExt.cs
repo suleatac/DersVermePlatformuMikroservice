@@ -14,7 +14,7 @@ namespace Microservice.Catalog.Api.Features.Categories
             group.GetAllCategoryGroupItemEndpoint();
             group.GetByIdCategoryGroupItemEndPoint();
             group.WithApiVersionSet(apiVersionSet);
-            group.RequireAuthorization();
+            group.RequireAuthorization("password");
         }
 
 

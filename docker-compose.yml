@@ -131,6 +131,18 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     volumes:
       - postgres.db.keycloak.ui.data:/var/lib/pgadmin
+  rabbitmq:
+    restart: always
+    image: rabbitmq:3.13.7-management
+    container_name: rabbitmq.container
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
 volumes:
   mongo.db.catalog.volume:
   mongo.db.discount.volume:  
@@ -139,4 +151,5 @@ volumes:
   postgres.db.keycloak.volume:
   postgres.db.keycloak.ui.data:
   keycloak-data:
+  rabbitmq_data:
   

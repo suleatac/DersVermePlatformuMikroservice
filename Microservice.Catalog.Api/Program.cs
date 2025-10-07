@@ -5,17 +5,33 @@ using Microservice.Catalog.Api.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddOpenApi();
+
+
+// Swagger ayarlarý
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCommonServiceExt(typeof(CatalogAssembly));
 builder.Services.AddVersioningExt();
+
+// MassTransit-RabbitMQ Ayarlarý
+builder.Services.AddMasstransitExt(builder.Configuration);
+
 // Mongo ayarlarý
 builder.Services.AddMongoOptionExt(); 
-
 builder.Services.AddDatabaseServiceExt();
-builder.Services.AddCommonServiceExt(typeof(CatalogAssembly));
+
+
 //Authentication ayarlarý
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
+
+
+
+
+
 
 var app = builder.Build();
 
@@ -38,8 +54,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.MapOpenApi();
+
 }
 
-app.UseHttpsRedirection();
 
 app.Run();
