@@ -19,6 +19,13 @@ namespace Microservice.Order.Application.BackgroundServices
             var paymentService = scope.ServiceProvider.GetRequiredService<IPaymentService>();
             var orderRepository = scope.ServiceProvider.GetRequiredService<IOrderRepository>();
             var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+           
+            
+            while (!stoppingToken.IsCancellationRequested)
+            {
+               
+          
+
             var orders = orderRepository.Where(x => x.Status == Domain.Entities.OrderStatus.waitingForPayment).ToList();
 
             foreach (var order in orders)
@@ -31,7 +38,8 @@ namespace Microservice.Order.Application.BackgroundServices
                     await unitOfWork.CommitChangesAsync(stoppingToken);
                 }
             }
-
+                await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken);
+            }
 
         }
     }

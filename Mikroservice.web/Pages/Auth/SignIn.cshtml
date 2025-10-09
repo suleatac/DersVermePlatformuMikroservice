@@ -1,0 +1,38 @@
+﻿@page
+@model Mikroservice.web.Pages.Auth.SignInModel
+@{
+}
+<div class=" row justify-content-center mt-5">
+    <div class="col-md-4">
+        <h2 class="text-center">Sign In</h2>
+        <div asp-validation-summary="ModelOnly"></div>
+        <form method="post">
+  
+            <div class="mb-3">
+                <label for="Email" class="form-label">Email address</label>
+                <input asp-for="SignInViewModel.Email" type="email" class="form-control" id="Email" placeholder="name@example.com">
+                <span asp-validation-for="SignInViewModel.Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="Password" class="form-label">Password</label>
+                <input asp-for="SignInViewModel.Password" type="password" class="form-control" id="Password" placeholder="Enter your password">
+                <span asp-validation-for="SignInViewModel.Password" class="text-danger"></span>
+            </div>
+
+          
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Sign In</button>
+            </div>
+
+            <div class="mt-3 text-center">
+                <p>Did you forget your password? <a asp-page="/">Reset</a></p>
+            </div>
+        </form>
+
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

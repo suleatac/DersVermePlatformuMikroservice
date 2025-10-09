@@ -55,6 +55,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microservice.Bus", "Microse
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microservice.Shared", "Microservice.Shared\Microservice.Shared.csproj", "{888EA883-35E4-5405-4FD1-B4E10431926D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ui", "ui", "{68C48DA9-02FF-435C-A848-579734D71DF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mikroservice.web", "Mikroservice.web\Mikroservice.web.csproj", "{6D0F6A56-0EF8-49CF-A4A6-E7C166DC9856}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +117,10 @@ Global
 		{888EA883-35E4-5405-4FD1-B4E10431926D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{888EA883-35E4-5405-4FD1-B4E10431926D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{888EA883-35E4-5405-4FD1-B4E10431926D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D0F6A56-0EF8-49CF-A4A6-E7C166DC9856}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D0F6A56-0EF8-49CF-A4A6-E7C166DC9856}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D0F6A56-0EF8-49CF-A4A6-E7C166DC9856}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D0F6A56-0EF8-49CF-A4A6-E7C166DC9856}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -142,6 +150,8 @@ Global
 		{3EA271A0-8649-4E27-884C-5E23A102220D} = {E2734DAF-F097-4D45-929C-20F90FC3A6F3}
 		{A630E1F1-6EB9-4717-A29F-424A1C5CC7C9} = {2C9B740F-F96A-4AF3-B33D-286378471117}
 		{888EA883-35E4-5405-4FD1-B4E10431926D} = {2C9B740F-F96A-4AF3-B33D-286378471117}
+		{68C48DA9-02FF-435C-A848-579734D71DF9} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{6D0F6A56-0EF8-49CF-A4A6-E7C166DC9856} = {68C48DA9-02FF-435C-A848-579734D71DF9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3295D5D9-D4C4-44F2-B2DC-3CF2EE8D7E00}

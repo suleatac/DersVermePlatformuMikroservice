@@ -36,6 +36,9 @@ namespace Microservice.Order.Application.Contracts.Refit
             };
 
             var client = httpClientFactory.CreateClient();
+
+            client.BaseAddress = new Uri(identityOptions.Adress);
+
             var discoveryResponse = await client.GetDiscoveryDocumentAsync(discoveryRequest, cancellationToken);
 
             if (discoveryResponse.IsError)
