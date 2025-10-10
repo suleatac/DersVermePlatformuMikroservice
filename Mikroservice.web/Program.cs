@@ -1,3 +1,4 @@
+using Microservice.web.Services.Refit;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Mikroservice.web.Extentions;
 using Mikroservice.web.Pages.Auth.SignIn;
@@ -11,8 +12,13 @@ builder.Services.AddRazorPages();
 builder.Services.AddOptionsExt();
 builder.Services.AddHttpClient<SignUpService>();
 builder.Services.AddHttpClient<SignInService>();
-builder.Services.AddSingleton<TokenService>();
+
+builder.Services.AddHttpClient<TokenService>();
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddRefitConfigurationExt(builder.Configuration);
+
+
 
 //Cookie Authentication Ayarlarý
 builder.Services.AddAuthentication(configureOption => {

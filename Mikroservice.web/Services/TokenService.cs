@@ -3,12 +3,13 @@
 using Duende.IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Mikroservice.web.Options;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace Mikroservice.web.Services
 {
-    public class TokenService
+    public class TokenService(HttpClient httpClient, IdentityOption identityOption)
     {
 
         public List<Claim> ExtractClaims(string accessToken)
@@ -18,13 +19,9 @@ namespace Mikroservice.web.Services
             var jwtToken = handler.ReadJwtToken(accessToken);
             return jwtToken.Claims.ToList<Claim>();
         }
-
-
-
         public AuthenticationProperties CreateAuthenticationProperties(TokenResponse tokenResponse)
         {
-     var authenticationProperties = new AuthenticationProperties
-            {
+            var authenticationProperties = new AuthenticationProperties {
                 IsPersistent = true,
                 ExpiresUtc = DateTimeOffset.UtcNow.AddSeconds(tokenResponse.ExpiresIn)
             };
@@ -55,11 +52,70 @@ namespace Mikroservice.web.Services
 
 
 
+        public async Task<TokenResponse> GetNewAccessTokenByRefreshToken(string refreshToken)
+        {
 
 
 
+            var discoveryRequest = new DiscoveryDocumentRequest() {
+                Address = identityOption.Address,
+                Policy =
+               {
+                    RequireHttps=false
+                }
+            };
+
+            httpClient.BaseAddress = new Uri(identityOption.Address);
+            var discoveryResponse = await httpClient.GetDiscoveryDocumentAsync();
+
+            if (discoveryResponse.IsError)
+            {
+                throw new Exception(discoveryResponse.Error);
+            }
 
 
+            var tokenResponse = await httpClient.RequestRefreshTokenAsync(new RefreshTokenRequest {
+                Address = discoveryResponse.TokenEndpoint,
+                ClientId = identityOption.Web.ClientId,
+                ClientSecret = identityOption.Web.ClientSecret,
+                RefreshToken = refreshToken
+            });
+
+            return tokenResponse;
+
+
+        }
+
+
+
+        public async Task<TokenResponse> GetClientAccessToken()
+        {
+            var discoveryRequest = new DiscoveryDocumentRequest() {
+                Address = identityOption.Address,
+                Policy =
+               {
+                    RequireHttps=false
+                }
+            };
+            httpClient.BaseAddress = new Uri(identityOption.Address);
+            var discoveryResponse = await httpClient.GetDiscoveryDocumentAsync();
+            if (discoveryResponse.IsError)
+            {
+                throw new Exception(discoveryResponse.Error);
+            }
+
+
+            var tokenResponse = await httpClient.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest {
+                Address = discoveryResponse.TokenEndpoint,
+                ClientId = identityOption.Web.ClientId,
+                ClientSecret = identityOption.Web.ClientSecret
+            });
+            if (tokenResponse.IsError)
+            {
+                throw new Exception(tokenResponse.Error);
+            }
+            return tokenResponse;
+        }
     }
 
 

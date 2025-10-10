@@ -53,7 +53,10 @@ namespace Microservice.Order.Application.Contracts.Refit
 
                 var addressUrlOption = configuration.GetSection(nameof(AddressUrlOption)).Get<AddressUrlOption>();
                 c.BaseAddress = new Uri(addressUrlOption!.PaymentUrl);
-            }).AddHttpMessageHandler<AuthenticatedHtttpClientHandler>().AddHttpMessageHandler<ClientAuthenticatedHttpClientHandler>();
+            })
+            .AddHttpMessageHandler<AuthenticatedHtttpClientHandler>()//bu usertoken için istek atarken kullanmak için
+            .AddHttpMessageHandler<ClientAuthenticatedHttpClientHandler>()//bu clientcredential için token alıp istek göndermek için
+            ;
 
 
             return services;

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Net;
 using System.Text.Json.Serialization;
 
 namespace Mikroservice.web.Services
@@ -35,7 +34,7 @@ namespace Mikroservice.web.Services
 
             return new ServiceResult {
 
-                Fail = new Microsoft.AspNetCore.Mvc.ProblemDetails() {
+                Fail = new ProblemDetails() {
                     Title = title,
                     Detail = description
                 }
@@ -46,7 +45,7 @@ namespace Mikroservice.web.Services
         {
 
             return new ServiceResult {
-                Fail = new Microsoft.AspNetCore.Mvc.ProblemDetails() {
+                Fail = new ProblemDetails() {
                     Title = title
                 }
             };

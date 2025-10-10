@@ -39,22 +39,22 @@ namespace Mikroservice.web.Pages.Auth
                 return Page();
             }
         }
-   
-    
-    
-    
-    
-    public async Task<IActionResult> OnPostSignOutAsync()
+
+
+
+
+
+        public async Task<IActionResult> OnPostSignOutAsync()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToPage("/Index");
         }
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     }
 }
