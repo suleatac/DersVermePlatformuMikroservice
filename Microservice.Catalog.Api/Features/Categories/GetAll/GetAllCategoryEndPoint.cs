@@ -25,7 +25,9 @@
                 async (IMediator mediator) =>
                 (await mediator.Send(new GetAllCategoryQuery())).ToGenericResult())
                       .MapToApiVersion(1.0)
-                  .WithName("GetAllCategoryQuery"); 
+                  .WithName("GetAllCategoryQuery")
+                  .RequireAuthorization("ClientCredential")
+                  ; 
             return group;
         }
 

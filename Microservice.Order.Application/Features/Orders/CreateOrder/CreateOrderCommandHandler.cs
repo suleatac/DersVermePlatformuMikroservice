@@ -29,14 +29,6 @@ namespace Microservice.Order.Application.Features.Orders.CreateOrder
 
 
 
-
-
-  
-
-
-            //TODO:begin transaction
-
-
             var newAddress = new Address
             {
                 Province = request.Address.Province,

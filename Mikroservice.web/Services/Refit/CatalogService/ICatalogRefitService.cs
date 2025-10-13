@@ -6,17 +6,15 @@ namespace Mikroservice.web.Services.Refit.CatalogService
 {
     public interface ICatalogRefitService
     {
-        [HttpGet("/v1/catalog/categories")]
-        Task<ApiResponse<ServiceResult>> GetCategoriesAsync();
+        [Get("/api/v1/categories")]
+        Task<ApiResponse<List<CategoryDto>>> GetCategoriesAsync();
 
+        [Post("/api/v1/courses")]
+        Task<ApiResponse<object>> CreateCourseAsync(CreateCourseRequest request);
 
-
-        [Post("/v1/catalog/courses")]
-        Task<ApiResponse<ServiceResult>> CreateCourseAsync(CreateCourseRequest request);
-
-        [Put("/v1/catalog/courses")]
-        Task<ApiResponse<ServiceResult>> UpdateCourseAsync(UpdateCourseRequest request);
-        [Delete("/v1/catalog/courses/{id}")]
-        Task<ApiResponse<ServiceResult>> DeleteCourseAsync(Guid id);
+        [Put("/api/v1/courses")]
+        Task<ApiResponse<object>> UpdateCourseAsync(UpdateCourseRequest request);
+        [Delete("/api/v1/courses/{id}")]
+        Task<ApiResponse<object>> DeleteCourseAsync(Guid id);
     }
 }

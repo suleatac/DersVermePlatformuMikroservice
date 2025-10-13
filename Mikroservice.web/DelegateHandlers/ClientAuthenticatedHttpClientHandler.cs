@@ -14,7 +14,7 @@ namespace Microservice.web.DelegateHandlers
             {
                 return await base.SendAsync(request, cancellationToken);
             }
-            if (!httpContextAccessor.HttpContext!.User.Identity!.IsAuthenticated)
+            if (httpContextAccessor.HttpContext!.User.Identity!.IsAuthenticated)
             {
                 return await base.SendAsync(request, cancellationToken);
             }

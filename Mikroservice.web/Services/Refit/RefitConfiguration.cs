@@ -15,17 +15,6 @@ namespace Microservice.web.Services.Refit
             services.AddScoped<ClientAuthenticatedHttpClientHandler>();
 
 
-            services.AddOptions<GatewayOption>()
-                .BindConfiguration(nameof(GatewayOption))
-                .ValidateDataAnnotations()
-                .ValidateOnStart();
-
-            services.AddSingleton<GatewayOption>(sp =>
-                sp.GetRequiredService<Microsoft.Extensions.Options.IOptions<GatewayOption>>().Value);
-
-
-
-
 
 
 
@@ -35,8 +24,8 @@ namespace Microservice.web.Services.Refit
             .ConfigureHttpClient(c =>
             {
 
-                var gatewayOption = configuration.GetSection(nameof(GatewayOption)).Get<GatewayOption>();
-                c.BaseAddress = new Uri(gatewayOption!.BaseAddress);
+                var microserviceOption = configuration.GetSection(nameof(MicroserviceOption)).Get<MicroserviceOption>();
+                c.BaseAddress = new Uri(microserviceOption!.Catalog.BaseUrl);
             })
             .AddHttpMessageHandler<AuthenticatedHtttpClientHandler>()//bu usertoken için istek atarken kullanmak için
             .AddHttpMessageHandler<ClientAuthenticatedHttpClientHandler>()//bu clientcredential için token alıp istek göndermek için

@@ -42,8 +42,8 @@ namespace Microservice.Shared.Extentions
                         ValidateIssuer = true, 
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        RoleClaimType= "roles",
-                        NameClaimType= "preferred_username"
+                        RoleClaimType= ClaimTypes.Role,
+                        NameClaimType= ClaimTypes.NameIdentifier
                     };
 
 
@@ -73,7 +73,7 @@ namespace Microservice.Shared.Extentions
                 {
                     policy.AuthenticationSchemes.Add("ClientCredentialSchema");
                     policy.RequireAuthenticatedUser();
-                    policy.RequireClaim("client_id");
+              
                 });
 
                 Options.AddPolicy("password", policy =>
