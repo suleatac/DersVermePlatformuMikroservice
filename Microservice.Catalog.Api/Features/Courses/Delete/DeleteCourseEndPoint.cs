@@ -28,12 +28,13 @@ namespace Microservice.Catalog.Api.Features.Courses.Delete
                 var result = await mediator.Send(new DeleteCourseCommand(id));
                 return result.ToGenericResult();
             })
-                     .MapToApiVersion(1.0)
+            .MapToApiVersion(1.0)
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
             .WithName("DeleteCourse")
             .WithSummary("Delete Course")
-            .WithDescription("Delete Course by Id");
+            .WithDescription("Delete Course by Id")
+            .RequireAuthorization(policyNames: "Instructor"); ;
             return group;
         }
     }

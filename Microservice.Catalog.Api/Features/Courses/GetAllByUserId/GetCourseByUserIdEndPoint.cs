@@ -30,11 +30,13 @@ namespace Microservice.Catalog.Api.Features.Courses.GetAllByUserId
     {
         public static RouteGroupBuilder GetByUserIdCourseGroupItemEndPoint(this RouteGroupBuilder group)
         {
-            group.MapGet("/{userId:guid}",
+            group.MapGet("/user/{userId:guid}",
                 async (Guid userId, IMediator mediator, CancellationToken cancellationToken) =>
                     (await mediator.Send(new GetCourseByUserIdQuery(userId))).ToGenericResult())
-                     .MapToApiVersion(1.0)
-                .WithName("GetByUserIdCourse");
+                    .MapToApiVersion(1.0)
+                    .WithName("GetByUserIdCourse")
+                     .RequireAuthorization(policyNames: "Instructor")
+                     ;
             return group;
         }
     }

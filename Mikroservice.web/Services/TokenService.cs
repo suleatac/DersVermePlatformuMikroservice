@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace Mikroservice.web.Services
 {
-    public class TokenService(HttpClient httpClient, IdentityOption identityOption)
+    public class TokenService(IHttpClientFactory httpClientFactory, IdentityOption identityOption)
     {
 
         public List<Claim> ExtractClaims(string accessToken)
@@ -64,7 +64,7 @@ namespace Mikroservice.web.Services
                     RequireHttps=false
                 }
             };
-
+            var httpClient = httpClientFactory.CreateClient("GetNewAccessTokenByRefreshToken");
             httpClient.BaseAddress = new Uri(identityOption.Address);
             var discoveryResponse = await httpClient.GetDiscoveryDocumentAsync();
 
@@ -97,6 +97,7 @@ namespace Mikroservice.web.Services
                     RequireHttps=false
                 }
             };
+            var httpClient = httpClientFactory.CreateClient("GetClientAccessToken");
             httpClient.BaseAddress = new Uri(identityOption.Address);
             var discoveryResponse = await httpClient.GetDiscoveryDocumentAsync();
             if (discoveryResponse.IsError)

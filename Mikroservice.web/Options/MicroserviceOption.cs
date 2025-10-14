@@ -5,7 +5,7 @@
         public required MikroserviceOptionItem Catalog { get; set; }
 
 
-
+        public required MikroserviceOptionItem File { get; set; }
 
 
 

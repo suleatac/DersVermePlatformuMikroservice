@@ -1,3 +1,4 @@
+using Microservice.web.Services;
 using Microservice.web.Services.Refit;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Mikroservice.web.Extentions;
@@ -14,10 +15,10 @@ builder.Services.AddHttpClient<SignUpService>();
 builder.Services.AddHttpClient<SignInService>();
 
 builder.Services.AddScoped<CatalogService>();
+builder.Services.AddScoped<UserService>();
 
 
-
-builder.Services.AddHttpClient<TokenService>();
+builder.Services.AddScoped<TokenService>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddRefitConfigurationExt(builder.Configuration);

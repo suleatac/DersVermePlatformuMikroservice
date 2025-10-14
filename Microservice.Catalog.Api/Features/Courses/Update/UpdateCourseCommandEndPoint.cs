@@ -14,8 +14,10 @@ namespace Microservice.Catalog.Api.Features.Courses.Update
                 var result = await mediator.Send(command);
                 return result.ToGenericResult();
             })
-                     .MapToApiVersion(1.0)
-            .AddEndpointFilter<ValidationFilter<UpdateCourseCommand>>();
+            .MapToApiVersion(1.0)
+            .AddEndpointFilter<ValidationFilter<UpdateCourseCommand>>()
+            .WithName("UpdateCourse")
+            .RequireAuthorization(policyNames: "Instructor");
 
             return group;
         }

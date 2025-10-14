@@ -1,9 +1,14 @@
 ﻿using Microservice.Bus.Events;
+using Microservice.Shared.Services;
 
 namespace Microservice.Catalog.Api.Features.Courses.Create
 {
 
-    public class CreateCourseCommandHandler(AppDbContext context, IMapper mapper,IPublishEndpoint publishEndpoint) : IRequestHandler<CreateCourseCommand, ServiceResult<Guid>>
+    public class CreateCourseCommandHandler(
+        AppDbContext context,
+        IMapper mapper,
+        IPublishEndpoint publishEndpoint,
+        IIdentityService identityService) : IRequestHandler<CreateCourseCommand, ServiceResult<Guid>>
     {
         public async Task<ServiceResult<Guid>> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
         {
@@ -24,6 +29,7 @@ namespace Microservice.Catalog.Api.Features.Courses.Create
             var newCourse = mapper.Map<Course>(request);
             newCourse.CreatedDate = DateTime.UtcNow;
             newCourse.Id=NewId.NextSequentialGuid();
+            newCourse.UserId = identityService.UserId;
             newCourse.Feature = new Feature()
             {
                 Duration = 10,

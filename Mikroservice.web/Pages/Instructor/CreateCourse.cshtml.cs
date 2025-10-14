@@ -11,7 +11,8 @@ namespace Mikroservice.web.Pages.Instructor
     public class CreateCourseModel(CatalogService catalogService) : PageModel
     {
         [BindProperty] public CreateCourseViewModel CreateCourseViewModel { get; set; } = CreateCourseViewModel.Empty;
-        public async Task<IActionResult> OnGet()
+       
+        public async Task<IActionResult> OnGetAsync()
         {
             var categoriesResult = await catalogService.GetCategoriesAsync();
             if (categoriesResult.IsFail)
@@ -23,5 +24,22 @@ namespace Mikroservice.web.Pages.Instructor
             CreateCourseViewModel.SetCategoryDropdownList(categoriesResult.Data!);
            return Page();
         }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            var result = await catalogService.CreateCourseAsync(CreateCourseViewModel);
+            if (result.IsFail)
+            {
+                // TODO: Loglama yapýlabilir. REDÝREC TO ERROR PAGE edilebilir.
+
+
+            }
+           
+            return RedirectToPage("Courses");
+        }
+
+
+
+
     }
 }

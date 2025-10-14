@@ -1,0 +1,30 @@
+﻿<ul class="navbar-nav ms-auto">
+    @if (User?.Identity?.IsAuthenticated ?? false)
+    {
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Hoşgeldin @User?.Identity?.Name
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                <li><h6 class="dropdown-header">@User?.Identity?.Name</h6></li>
+                <li><a class="dropdown-item" asp-area="" asp-page="/Orders/Index">Orders</a></li>
+                <li><a class="dropdown-item" asp-area="" asp-page="/Payments/Index">Payments</a></li>
+                <li><a class="dropdown-item" asp-area="" asp-page="/Instructor/CreateCourse">Create Course</a></li>
+                <li><a class="dropdown-item" asp-area="" asp-page="/Instructor/Courses">Courses</a></li>
+                <li><a class="dropdown-item" asp-area="" asp-page="/Profile/Index">Profile</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                    <form method="post" asp-area="" asp-page="/Auth/SignIn" asp-page-handler="SignOut">
+                        <button type="submit" class="dropdown-item">Sign out</button>
+                    </form>
+                </li>
+            </ul>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-page="/Auth/SignIn">Sign in</a>
+        </li>
+    }
+</ul>

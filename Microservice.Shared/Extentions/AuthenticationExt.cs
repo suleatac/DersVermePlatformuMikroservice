@@ -75,7 +75,12 @@ namespace Microservice.Shared.Extentions
                     policy.RequireAuthenticatedUser();
               
                 });
-
+                Options.AddPolicy("Instructor", policy => {
+                    policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim(ClaimTypes.Email);
+                    policy.RequireRole(ClaimTypes.Role,"Eğitmen Rolü");
+                });
                 Options.AddPolicy("password", policy =>
                 {
                     policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
