@@ -1,6 +1,7 @@
 using Microservice.web.Services;
 using Microservice.web.Services.Refit;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Mikroservice.web.ExceptionHandlers;
 using Mikroservice.web.Extentions;
 using Mikroservice.web.Pages.Auth.SignIn;
 using Mikroservice.web.Pages.Auth.SignUp;
@@ -16,7 +17,7 @@ builder.Services.AddHttpClient<SignInService>();
 
 builder.Services.AddScoped<CatalogService>();
 builder.Services.AddScoped<UserService>();
-
+builder.Services.AddExceptionHandler<UnauthorizedAccessExceptionHandler>();
 
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddHttpContextAccessor();
