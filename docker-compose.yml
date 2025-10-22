@@ -143,6 +143,54 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+  microservice.basket.api:
+    image: ${DOCKER_REGISTRY-}microservicebasketapi
+    build:
+      context: .
+      dockerfile: Microservice.Basket.Api/Dockerfile
+
+  microservice.catalog.api:
+    image: ${DOCKER_REGISTRY-}microservicecatalogapi
+    build:
+      context: .
+      dockerfile: Microservice.Catalog.Api/Dockerfile
+
+  mikroservice.discount.api:
+    image: ${DOCKER_REGISTRY-}mikroservicediscountapi
+    build:
+      context: .
+      dockerfile: Mikroservice.Discount.Api/Dockerfile
+
+  microservice.file.api:
+    image: ${DOCKER_REGISTRY-}microservicefileapi
+    build:
+      context: .
+      dockerfile: Microservice.File.Api/Dockerfile
+
+  microservice.gateway:
+    image: ${DOCKER_REGISTRY-}microservicegateway
+    build:
+      context: .
+      dockerfile: Microservice.Gateway/Dockerfile
+
+  mikroservice.order.api:
+    image: ${DOCKER_REGISTRY-}mikroserviceorderapi
+    build:
+      context: .
+      dockerfile: Mikroservice.Order.Api/Dockerfile
+
+  microservice.payment.api:
+    image: ${DOCKER_REGISTRY-}microservicepaymentapi
+    build:
+      context: .
+      dockerfile: Microservice.Payment.Api/Dockerfile
+
+  mikroservice.web:
+    image: ${DOCKER_REGISTRY-}mikroserviceweb
+    build:
+      context: .
+      dockerfile: Mikroservice.web/Dockerfile
+
 volumes:
   mongo.db.catalog.volume:
   mongo.db.discount.volume:  
@@ -153,3 +201,12 @@ volumes:
   keycloak-data:
   rabbitmq_data:
   
+
+
+
+
+
+
+
+
+

@@ -1,7 +1,10 @@
 ﻿using Duende.IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Mikroservice.web.Services;
+using System.Security.Claims;
 
 namespace Microservice.web.DelegateHandlers
 {
@@ -49,7 +52,17 @@ namespace Microservice.web.DelegateHandlers
                 throw new UnauthorizedAccessException("Failed to refresh access token. ");
             }
 
-            //TODO: Cookie güncelleme işlemi yapılacak.
+            //Cookie güncelleme işlemi yapıldı.
+
+      
+            var authenticationProperties = tokenService.CreateAuthenticationProperties(tokenResponse);
+            var userClaim = httpContextAccessor.HttpContext.User.Claims;
+
+            var claimIdentity = new ClaimsIdentity(userClaim, CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
+            var claimsPrincipal = new ClaimsPrincipal(claimIdentity);
+            await httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authenticationProperties);    
+
+
 
 
             request.SetBearerToken(tokenResponse.AccessToken!);

@@ -52,7 +52,7 @@ namespace Mikroservice.web.Pages.Auth.SignIn
             };
 
             client.BaseAddress = new Uri(identityOption.Address);
-            var discoveryResponse = await client.GetDiscoveryDocumentAsync();
+            var discoveryResponse = await client.GetDiscoveryDocumentAsync(discoveryRequest);
 
             if (discoveryResponse.IsError)
             {
@@ -66,7 +66,8 @@ namespace Mikroservice.web.Pages.Auth.SignIn
                 ClientId = identityOption.Web.ClientId,
                 ClientSecret = identityOption.Web.ClientSecret,
                 UserName = signInViewModel.Email!,
-                Password = signInViewModel.Password
+                Password = signInViewModel.Password,
+                Scope = "offline_access"
             });
 
 

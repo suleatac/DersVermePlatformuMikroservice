@@ -68,7 +68,7 @@ builder.Services.AddHostedService<CheckPaymentStatusOrderBackgroundService>();
 
 
 var app = builder.Build();
-
+app.UseExceptionHandler(x => { });
 var apiVersionSet = app.AddVersionSetExt();
 app.AddOrderGroupEndpointExt(apiVersionSet);
 

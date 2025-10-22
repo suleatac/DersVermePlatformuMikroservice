@@ -37,7 +37,7 @@ builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 
 var app = builder.Build();
-
+app.UseExceptionHandler(x => { });
 
 app.UseAuthentication();
 app.UseAuthorization();

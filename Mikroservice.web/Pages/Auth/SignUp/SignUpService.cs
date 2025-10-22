@@ -75,7 +75,7 @@ namespace Mikroservice.web.Pages.Auth.SignUp
             };
 
             client.BaseAddress = new Uri(identityOption.Address);
-            var discoveryResponse = await client.GetDiscoveryDocumentAsync();
+            var discoveryResponse = await client.GetDiscoveryDocumentAsync(discoveryRequest);
 
             if (discoveryResponse.IsError)
             {

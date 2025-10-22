@@ -39,6 +39,8 @@ var app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseExceptionHandler(x => { });
+
 app.AddBasketGroupEndpointExt(app.AddVersionSetExt());
 
 

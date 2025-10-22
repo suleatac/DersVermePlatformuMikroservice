@@ -66,7 +66,7 @@ namespace Mikroservice.web.Services
             };
             var httpClient = httpClientFactory.CreateClient("GetNewAccessTokenByRefreshToken");
             httpClient.BaseAddress = new Uri(identityOption.Address);
-            var discoveryResponse = await httpClient.GetDiscoveryDocumentAsync();
+            var discoveryResponse = await httpClient.GetDiscoveryDocumentAsync(discoveryRequest);
 
             if (discoveryResponse.IsError)
             {
@@ -99,7 +99,7 @@ namespace Mikroservice.web.Services
             };
             var httpClient = httpClientFactory.CreateClient("GetClientAccessToken");
             httpClient.BaseAddress = new Uri(identityOption.Address);
-            var discoveryResponse = await httpClient.GetDiscoveryDocumentAsync();
+            var discoveryResponse = await httpClient.GetDiscoveryDocumentAsync(discoveryRequest);
             if (discoveryResponse.IsError)
             {
                 throw new Exception(discoveryResponse.Error);

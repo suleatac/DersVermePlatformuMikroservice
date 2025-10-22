@@ -34,7 +34,7 @@ builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 
 var app = builder.Build();
-
+app.UseExceptionHandler(x => { });
 
 var apiVersionSet = app.AddVersionSetExt();
 app.AddCategoryGroupEndpointExt(apiVersionSet);

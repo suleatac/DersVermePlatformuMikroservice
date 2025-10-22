@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using Microservice.Bus.Commands;
 using Microservice.Bus.Events;
 using Microsoft.Extensions.FileProviders;
 

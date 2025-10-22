@@ -1,4 +1,4 @@
-﻿using Microservice.Bus.Events;
+﻿using Microservice.Bus.Commands;
 using Microservice.Shared.Services;
 
 namespace Microservice.Catalog.Api.Features.Courses.Create

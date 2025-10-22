@@ -1,11 +1,13 @@
 using Microservice.web.Services;
 using Microservice.web.Services.Refit;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Localization;
 using Mikroservice.web.ExceptionHandlers;
 using Mikroservice.web.Extentions;
 using Mikroservice.web.Pages.Auth.SignIn;
 using Mikroservice.web.Pages.Auth.SignUp;
 using Mikroservice.web.Services;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +47,20 @@ builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
+
+var cultueInfo=new CultureInfo("tr-TR");
+CultureInfo.DefaultThreadCurrentCulture = cultueInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultueInfo;
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(cultueInfo),
+    SupportedCultures = new List<CultureInfo> { cultueInfo },
+    SupportedUICultures = new List<CultureInfo> { cultueInfo }
+});
+
+
+
+
 app.UseAuthentication();
 app.UseAuthorization();
 // Configure the HTTP request pipeline.
