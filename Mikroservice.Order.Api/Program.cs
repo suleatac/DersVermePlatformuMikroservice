@@ -10,6 +10,7 @@ using Microservice.Order.Persistence.Repositories;
 using Microservice.Order.Persistence.UnitOfWork;
 using Microservice.Shared.Extentions;
 using Microservice.Shared.Options;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Mikroservice.Order.Api.Endpoints.Orders;
 using Refit;
@@ -68,6 +69,46 @@ builder.Services.AddHostedService<CheckPaymentStatusOrderBackgroundService>();
 
 
 var app = builder.Build();
+
+//çalýþtýðýnda otomatik migration yapmasý için
+using (var scope = app.Services.CreateScope())
+{
+    var serviceProvider = scope.ServiceProvider;
+    var dbContext = serviceProvider.GetRequiredService<AppDbContext>();
+    await dbContext.Database.MigrateAsync();
+}
+
+
+
+//using (var scope = app.Services.CreateScope())
+//{
+//    var serviceProvider = scope.ServiceProvider;
+//    var dbContext = serviceProvider.GetRequiredService<AppDbContext>();
+//    var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
+
+//    var maxRetries = 10;
+//    var delay = TimeSpan.FromSeconds(5);
+
+//    for (var attempt = 1; attempt <= maxRetries; attempt++)
+//    {
+//        try
+//        {
+//            await dbContext.Database.MigrateAsync();
+//            logger.LogInformation("Database migrated successfully.");
+//            break;
+//        }
+//        catch (SqlException ex)
+//        {
+//            logger.LogWarning(ex, "SQL Server not ready (attempt {Attempt}/{Max}). Waiting {Delay}s...", attempt, maxRetries, delay.TotalSeconds);
+//            if (attempt == maxRetries) throw;
+//            await Task.Delay(delay);
+//        }
+//    }
+//}
+
+
+
+
 app.UseExceptionHandler(x => { });
 var apiVersionSet = app.AddVersionSetExt();
 app.AddOrderGroupEndpointExt(apiVersionSet);

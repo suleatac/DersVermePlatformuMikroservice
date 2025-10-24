@@ -18,7 +18,7 @@ namespace Microservice.Basket.Api.Features.Baskets
             group.ApplyDiscountCouponGroupItemEndpoint();
             group.RemoveDiscountGroupItemEndpoint();
             group.WithApiVersionSet(apiVersionSet);
-            group.RequireAuthorization();
+            group.RequireAuthorization("ClientCredential");
         }
 
     }

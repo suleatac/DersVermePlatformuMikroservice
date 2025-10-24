@@ -1,6 +1,5 @@
 using Microservice.Basket.Api;
 using Microservice.Basket.Api.Features.Baskets;
-using Microservice.Bus;
 using Microservice.Shared.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);

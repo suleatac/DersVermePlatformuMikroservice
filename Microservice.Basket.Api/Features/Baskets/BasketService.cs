@@ -21,8 +21,13 @@ namespace Microservice.Basket.Api.Features.Baskets
 
         public async Task CreateCacheAsync(Data.Basket basket,CancellationToken cancellationToken)
         {
+            DistributedCacheEntryOptions options= new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1),
+                SlidingExpiration = TimeSpan.FromMinutes(30)
+            };
             var basketAsString = System.Text.Json.JsonSerializer.Serialize(basket);
-            await distributedCache.SetStringAsync(GetCacheKey(), basketAsString, token: cancellationToken);
+            await distributedCache.SetStringAsync(GetCacheKey(), basketAsString, options, token: cancellationToken);
         }
         public async Task DeleteBasket(Guid userId)
         {

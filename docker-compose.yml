@@ -80,6 +80,13 @@ services:
     environment:
      SA_PASSWORD: "${MSSQL_SA_PASSWORD}"
      ACCEPT_EULA: "Y"
+    healthcheck:
+      test: >
+        /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${MSSQL_SA_PASSWORD}" -Q "SELECT 1" -b -o /dev/null
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
     ports:
       - "1433:1433"
     volumes:
@@ -143,50 +150,52 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+ 
+      
   microservice.basket.api:
-    image: ${DOCKER_REGISTRY-}microservicebasketapi
+    image: microservicebasketapi
     build:
       context: .
       dockerfile: Microservice.Basket.Api/Dockerfile
 
   microservice.catalog.api:
-    image: ${DOCKER_REGISTRY-}microservicecatalogapi
+    image: microservicecatalogapi
     build:
       context: .
       dockerfile: Microservice.Catalog.Api/Dockerfile
 
   mikroservice.discount.api:
-    image: ${DOCKER_REGISTRY-}mikroservicediscountapi
+    image: mikroservicediscountapi
     build:
       context: .
       dockerfile: Mikroservice.Discount.Api/Dockerfile
 
   microservice.file.api:
-    image: ${DOCKER_REGISTRY-}microservicefileapi
+    image: microservicefileapi
     build:
       context: .
       dockerfile: Microservice.File.Api/Dockerfile
 
   microservice.gateway:
-    image: ${DOCKER_REGISTRY-}microservicegateway
+    image: microservicegateway
     build:
       context: .
       dockerfile: Microservice.Gateway/Dockerfile
 
   mikroservice.order.api:
-    image: ${DOCKER_REGISTRY-}mikroserviceorderapi
+    image: mikroserviceorderapi
     build:
       context: .
       dockerfile: Mikroservice.Order.Api/Dockerfile
 
   microservice.payment.api:
-    image: ${DOCKER_REGISTRY-}microservicepaymentapi
+    image: microservicepaymentapi
     build:
       context: .
       dockerfile: Microservice.Payment.Api/Dockerfile
 
   mikroservice.web:
-    image: ${DOCKER_REGISTRY-}mikroserviceweb
+    image: mikroserviceweb
     build:
       context: .
       dockerfile: Mikroservice.web/Dockerfile
