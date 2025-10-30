@@ -127,6 +127,7 @@ services:
       - "5432:5432"
     volumes:
       -  postgres.db.keycloak.volume:/var/lib/postgresql/data
+
   postgres.db.keycloak.ui:
     restart: always
     image: dpage/pgadmin4

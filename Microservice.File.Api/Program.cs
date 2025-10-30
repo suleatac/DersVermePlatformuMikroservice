@@ -6,29 +6,31 @@ using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 
 
-// Swagger ayarlarý
+// Swagger ayarlarÄ±
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//file kök dosyasýna eriþim için
+//file kÃ¶k dosyasÄ±na eriÅŸim iÃ§in
 builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider( Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
 
 
 builder.Services.AddCommonServiceExt(typeof(FileAssembly));
 builder.Services.AddVersioningExt();
 
-// MassTransit-RabbitMQ Ayarlarý
+// MassTransit-RabbitMQ AyarlarÄ±
 builder.Services.AddMasstransitExt(builder.Configuration);
 
 
 
-//Authentication ayarlarý
+//Authentication ayarlarÄ±
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 
@@ -40,6 +42,8 @@ builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 app.UseExceptionHandler(x => { });
 app.AddFileGroupEndpointExt(app.AddVersionSetExt());
 app.UseStaticFiles();

@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DersVermePlatformuMikroservice.ServiceDefaults\DersVermePlatformuMikroservice.ServiceDefaults.csproj" />
     <ProjectReference Include="..\Microservice.Bus\Microservice.Bus.csproj" />
     <ProjectReference Include="..\Microservice.Shared\Microservice.Shared.csproj" />
   </ItemGroup>

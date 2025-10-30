@@ -4,20 +4,22 @@ using Microservice.Shared.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-// Swagger ayarlarý
+// Swagger ayarlarÄ±
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddCommonServiceExt(typeof(BasketAssembly));
 
-// MassTransit-RabbitMQ Ayarlarý
+// MassTransit-RabbitMQ AyarlarÄ±
 builder.Services.AddMasstransitExt(builder.Configuration);
 
-// Version Ayarlarý
+// Version AyarlarÄ±
 builder.Services.AddVersioningExt();
 
 
@@ -25,16 +27,23 @@ builder.Services.AddVersioningExt();
 
 builder.Services.AddScoped<BasketService>();
 
-// Redis Baðlantý ayarlarý
-builder.Services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = builder.Configuration.GetConnectionString("Redis");
-});
+// Redis BaÄŸlantÄ± ayarlarÄ±
 
-//Authentication ayarlarý
+//builder.Services.AddStackExchangeRedisCache(options =>
+//{
+//    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+//});
+builder.AddRedisDistributedCache("redis-db-basket");
+
+
+
+
+//Authentication ayarlarÄ±
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 app.UseAuthentication();
 app.UseAuthorization();
 

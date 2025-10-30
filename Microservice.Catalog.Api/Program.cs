@@ -5,27 +5,29 @@ using Microservice.Catalog.Api.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 
-// Swagger ayarlarý
+// Swagger ayarlarÄ±
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddCommonServiceExt(typeof(CatalogAssembly));
 builder.Services.AddVersioningExt();
 
-// MassTransit-RabbitMQ Ayarlarý
+// MassTransit-RabbitMQ AyarlarÄ±
 builder.Services.AddMasstransitExt(builder.Configuration);
 
-// Mongo ayarlarý
+// Mongo ayarlarÄ±
 builder.Services.AddMongoOptionExt(); 
 builder.Services.AddDatabaseServiceExt();
 
 
-//Authentication ayarlarý
+//Authentication ayarlarÄ±
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 
@@ -34,6 +36,8 @@ builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 app.UseExceptionHandler(x => { });
 
 var apiVersionSet = app.AddVersionSetExt();
@@ -44,7 +48,7 @@ app.AddCourseGroupEndpointExt(apiVersionSet);
 
 app.AddSeedDataExt().ContinueWith(x =>
 {
-    Console.WriteLine(x.IsFaulted ? x.Exception?.Message:"Seed data ekleme iþlemi tamamlandý.");
+    Console.WriteLine(x.IsFaulted ? x.Exception?.Message:"Seed data ekleme iÅŸlemi tamamlandÄ±.");
 });
 app.UseAuthentication();
 app.UseAuthorization();

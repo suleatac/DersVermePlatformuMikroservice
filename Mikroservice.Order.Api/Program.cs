@@ -17,25 +17,27 @@ using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 
-// Version ayarlarý
+// Version ayarlarÄ±
 builder.Services.AddVersioningExt();
 
 builder.Services.AddCommonServiceExt(typeof(OrderApplicationAssembly));
 //builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining(typeof(OrderAssembly)));
 
 
-// MassTransit-RabbitMQ Ayarlarý
+// MassTransit-RabbitMQ AyarlarÄ±
 builder.Services.AddCommonMasstransitExt(builder.Configuration);
 
 
 
 
-//Authentication ayarlarý
+//Authentication ayarlarÄ±
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 
@@ -45,7 +47,7 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
-// Swagger ayarlarý
+// Swagger ayarlarÄ±
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -55,12 +57,12 @@ builder.Services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericReposito
 
 
 //Migration settings
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//{
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
 
-});
-
+//});
+builder.AddSqlServerDbContext<AppDbContext>("order-db-aspire");
 
 
 builder.Services.AddRefitConfigurationExt(builder.Configuration);
@@ -70,7 +72,9 @@ builder.Services.AddHostedService<CheckPaymentStatusOrderBackgroundService>();
 
 var app = builder.Build();
 
-//çalýþtýðýnda otomatik migration yapmasý için
+app.MapDefaultEndpoints();
+
+//Ã§alÄ±ÅŸtÄ±ÄŸÄ±nda otomatik migration yapmasÄ± iÃ§in
 using (var scope = app.Services.CreateScope())
 {
     var serviceProvider = scope.ServiceProvider;

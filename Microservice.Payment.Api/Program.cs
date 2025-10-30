@@ -7,30 +7,32 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 
-// Swagger ayarlarý
+// Swagger ayarlarÄ±
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddCommonServiceExt(typeof(PaymentAssembly));
 builder.Services.AddVersioningExt();
 
-// MassTransit-RabbitMQ Ayarlarý
+// MassTransit-RabbitMQ AyarlarÄ±
 builder.Services.AddCommonMasstransitExt(builder.Configuration);
 
 
 
 
-//Authentication ayarlarý
+//Authentication ayarlarÄ±
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 
 
-//InMemory Db ayarlarý
+//InMemory Db ayarlarÄ±
 builder.Services.AddDbContext<AppDbContext>(options => { 
     options.UseInMemoryDatabase("Payment-In-MemoryDb");
 });
@@ -39,6 +41,8 @@ builder.Services.AddDbContext<AppDbContext>(options => {
 
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 app.AddPaymentGroupEndpointExt(app.AddVersionSetExt());
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

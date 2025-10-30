@@ -7,6 +7,8 @@ using Mikroservice.Discount.Api.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -14,29 +16,31 @@ builder.Services.AddOpenApi();
 
 
 
-// Swagger ayarlarý
+// Swagger ayarlarÄ±
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddCommonServiceExt(typeof(DiscountAssembly));
 builder.Services.AddVersioningExt();
 
-// MassTransit-RabbitMQ Ayarlarý
+// MassTransit-RabbitMQ AyarlarÄ±
 builder.Services.AddCommonMasstransitExt(builder.Configuration);
 
 
 
-// Mongo ayarlarý
+// Mongo ayarlarÄ±
 builder.Services.AddMongoOptionExt();
 builder.Services.AddDatabaseServiceExt();
 
-//Authentication ayarlarý
+//Authentication ayarlarÄ±
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 
 
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 app.UseExceptionHandler(x => { });
 
 app.UseAuthentication();

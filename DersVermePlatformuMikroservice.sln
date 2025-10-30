@@ -59,6 +59,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ui", "ui", "{68C48DA9-02FF-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mikroservice.web", "Mikroservice.web\Mikroservice.web.csproj", "{6D0F6A56-0EF8-49CF-A4A6-E7C166DC9856}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DersVermePlatformuMikroservice.AppHost", "DersVermePlatformuMikroservice.AppHost\DersVermePlatformuMikroservice.AppHost.csproj", "{5FD54380-676C-4DF1-B766-18E0433215A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DersVermePlatformuMikroservice.ServiceDefaults", "DersVermePlatformuMikroservice.ServiceDefaults\DersVermePlatformuMikroservice.ServiceDefaults.csproj", "{75A6576D-6A5C-B981-AEB5-8CA38BE52D4F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +125,14 @@ Global
 		{6D0F6A56-0EF8-49CF-A4A6-E7C166DC9856}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D0F6A56-0EF8-49CF-A4A6-E7C166DC9856}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D0F6A56-0EF8-49CF-A4A6-E7C166DC9856}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FD54380-676C-4DF1-B766-18E0433215A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FD54380-676C-4DF1-B766-18E0433215A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FD54380-676C-4DF1-B766-18E0433215A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FD54380-676C-4DF1-B766-18E0433215A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75A6576D-6A5C-B981-AEB5-8CA38BE52D4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75A6576D-6A5C-B981-AEB5-8CA38BE52D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75A6576D-6A5C-B981-AEB5-8CA38BE52D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75A6576D-6A5C-B981-AEB5-8CA38BE52D4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

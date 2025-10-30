@@ -11,6 +11,8 @@ using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddOptionsExt();
@@ -28,7 +30,7 @@ builder.Services.AddRefitConfigurationExt(builder.Configuration);
 
 
 
-//Cookie Authentication Ayarlarý
+//Cookie Authentication AyarlarÄ±
 builder.Services.AddAuthentication(configureOption => {
     configureOption.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     configureOption.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -47,6 +49,8 @@ builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 var cultueInfo=new CultureInfo("tr-TR");
 CultureInfo.DefaultThreadCurrentCulture = cultueInfo;

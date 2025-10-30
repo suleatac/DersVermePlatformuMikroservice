@@ -15,17 +15,11 @@ namespace Microservice.web.Services.Refit
             services.AddScoped<ClientAuthenticatedHttpClientHandler>();
 
 
-
-
-
-
-
             services.AddRefitClient<ICatalogRefitService>()
             .ConfigureHttpClient(c =>
             {
-
                 var microserviceOption = configuration.GetSection(nameof(MicroserviceOption)).Get<MicroserviceOption>();
-                c.BaseAddress = new Uri(microserviceOption!.Catalog.BaseUrl);
+                c.BaseAddress = new Uri("http://microservice-catalog-api");
             })
             .AddHttpMessageHandler<AuthenticatedHtttpClientHandler>()//bu usertoken için istek atarken kullanmak için
             .AddHttpMessageHandler<ClientAuthenticatedHttpClientHandler>()//bu clientcredential için token alıp istek göndermek için

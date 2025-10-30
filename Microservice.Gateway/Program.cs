@@ -2,6 +2,8 @@ using Microservice.Shared.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 
 
 builder.Services.AddReverseProxy()
@@ -9,7 +11,7 @@ builder.Services.AddReverseProxy()
 
 
 
-//Authentication ayarları
+//Authentication ayarlarÄ±
 builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 
@@ -17,6 +19,8 @@ builder.Services.AddAuthenticationAndAuthorizationExt(builder.Configuration);
 
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 app.UseExceptionHandler(x => { });
 app.MapReverseProxy();
 app.MapGet("/", () => "Yarp (Gateway)");
