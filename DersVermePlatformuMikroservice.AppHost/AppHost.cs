@@ -1,71 +1,3 @@
-using Aspire.Hosting;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-
-
-//// PostgreSQL instance used by Keycloak
-//var keycloakPostgres = builder
-//    .AddPostgres("postgres-db-keycloak", postgresUser, postgresPassword, 5433)
-//    .WithImage("postgres", "16.2")
-//    .WithVolume("postgres.db.keycloak.volume", "/var/lib/postgresql/data")
-//    .WithEnvironment("POSTGRES_DB", postgresDbName)
-//    .WithEnvironment("POSTGRES_USER", postgresUser)
-//    .WithEnvironment("POSTGRES_PASSWORD", postgresPassword)
-//    .AddDatabase("keycloak-db")
-//    ;
-
-//// Keycloak container
-//var keycloak = builder
-//    .AddContainer("keycloak", "quay.io/keycloak/keycloak:25.0")
-//    .WithEnvironment("KC_HOSTNAME_PORT", "8080")
-//    .WithEnvironment("KC_HOSTNAME_STRICT_BACKCHANNEL", "false")
-//    .WithEnvironment("KC_HTTP_ENABLED", "true")
-//    .WithEnvironment("KC_HOSTNAME_STRICT_HTTPS", "false")
-//    .WithEnvironment("KC_HOSTNAME_STRICT_HTTP", "false")
-//    .WithEnvironment("KC_HEALTH_ENABLED", "true")
-//    .WithEnvironment("KC_DB", "postgres")
-//    .WithEnvironment("KEYCLOAK_ADMIN", keycloakAdmin)
-//    .WithEnvironment("KEYCLOAK_ADMIN_PASSWORD", keycloakAdminPassword)
-
-//    // point Keycloak to the Postgres container (use service name from keycloakPostgres)
-//    .WithEnvironment("KC_DB_URL", $"jdbc:postgresql://postgres-db-keycloak/{postgresDbName}")
-//    .WithEnvironment("KC_DB_USERNAME", postgresUser)
-//    .WithEnvironment("KC_DB_PASSWORD", postgresPassword)
-//    .WithArgs("start-dev")
-//    .WaitFor(keycloakPostgres)
-//    .WithHttpEndpoint(8080, 8080, "keycloak-http-endpoint")
-//    ;
-
-//// A lightweight endpoint reference to use from APIs (used below with WithReference)
-//var keycloakEndpoint = keycloak.GetEndpoint("keycloak-http-endpoint");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -79,17 +11,13 @@ var postgresPassword = builder.AddParameter("POSTGRES-PASSWORD");
 
 // PostgreSQL instance used by Keycloak
 var keycloakPostgres = builder
-    .AddPostgres("postgres-db-keycloak", postgresUser, postgresPassword, 5433)
+    .AddPostgres("postgres-db-keycloak", postgresUser, postgresPassword, 5432)
     .WithImage("postgres", "16.2")
     .WithDataVolume("postgres.db.keycloak.volume")
     .WithEnvironment("POSTGRES_DB", postgresDbName)
     .WithEnvironment("POSTGRES_USER", postgresUser)
     .WithEnvironment("POSTGRES_PASSWORD", postgresPassword)
-    .AddDatabase("keycloak-db")
-    ;
-
-
-
+    .AddDatabase("keycloak-db");
 
 
 // Keycloak container'ýný ekleyin ve PostgreSQL ile uyumlu hale getirin
@@ -181,6 +109,7 @@ var orderSQLServerPassword = builder.AddParameter("SQLSERVER-SA-PASSWORD");
 var sqlserverOrderDb = builder.AddSqlServer("sqlserver-db-order")
     .WithPassword(orderSQLServerPassword)
     .WithEnvironment("ACCEPT_EULA", "Y") // EULA'yý kabul et
+    .WithEnvironment("MSSQL_PID", "Developer")
     //.WithImage("mcr.microsoft.com/mssql/server:2022-latest")
     .WithDataVolume("sqlserver.db.order.volume")
     .AddDatabase("order-db-aspire");

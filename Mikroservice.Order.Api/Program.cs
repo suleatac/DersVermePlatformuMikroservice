@@ -62,8 +62,16 @@ builder.Services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericReposito
 //    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
 
 //});
-builder.AddSqlServerDbContext<AppDbContext>("order-db-aspire");
+// Aspire'ın ürettiği bağlantı adını kullanıyoruz: "order-db-aspire"
+var conn = builder.Configuration.GetConnectionString("order-db-aspire");
 
+// Manuel AddDbContext ile TrustServerCertificate/Encrypt ve retry ekliyoruz
+builder.Services.AddDbContext<AppDbContext>(options => {
+    options.UseSqlServer(
+        $"{conn};TrustServerCertificate=True;Encrypt=False",
+        sql => sql.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(5), errorNumbersToAdd: null)
+    );
+});
 
 builder.Services.AddRefitConfigurationExt(builder.Configuration);
 
@@ -74,12 +82,32 @@ var app = builder.Build();
 
 app.MapDefaultEndpoints();
 
-//çalıştığında otomatik migration yapması için
+// Otomatik migration: retry + log (DB hazır olana kadar bekle)
 using (var scope = app.Services.CreateScope())
 {
-    var serviceProvider = scope.ServiceProvider;
-    var dbContext = serviceProvider.GetRequiredService<AppDbContext>();
-    await dbContext.Database.MigrateAsync();
+    var sp = scope.ServiceProvider;
+    var logger = sp.GetRequiredService<ILogger<Program>>();
+    var db = sp.GetRequiredService<AppDbContext>();
+
+    var maxRetries = 10;
+    var delay = TimeSpan.FromSeconds(5);
+
+    for (var attempt = 1; attempt <= maxRetries; attempt++)
+    {
+        try
+        {
+            await db.Database.MigrateAsync();
+            logger.LogInformation("Database migrated successfully.");
+            break;
+        }
+        catch (SqlException ex)
+        {
+            logger.LogWarning(ex, "SQL Server not ready (attempt {Attempt}/{Max}). Waiting {Delay}s...", attempt, maxRetries, delay.TotalSeconds);
+            if (attempt == maxRetries) throw;
+            await Task.Delay(delay);
+            delay = TimeSpan.FromSeconds(Math.Min(delay.TotalSeconds * 2, 60));
+        }
+    }
 }
 
 
