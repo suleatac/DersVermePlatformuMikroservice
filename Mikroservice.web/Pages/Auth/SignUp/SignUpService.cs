@@ -29,7 +29,7 @@ namespace Mikroservice.web.Pages.Auth.SignUp
             var userCreateRequest = CreateUserCreateRequest(model);
             var response = await client.PostAsJsonAsync(adress, userCreateRequest);
             if (!response.IsSuccessStatusCode)
-            {
+            { 
                 if(response.StatusCode!=System.Net.HttpStatusCode.InternalServerError)
                 {
                     var keycloakErrorResponse = await response.Content.ReadFromJsonAsync<KeycloakErrorResponse>();

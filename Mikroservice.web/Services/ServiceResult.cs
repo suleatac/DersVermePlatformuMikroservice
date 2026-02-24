@@ -68,7 +68,7 @@ namespace Mikroservice.web.Services
             };
 
         }
-     
+
 
 
         public new static ServiceResult<T> Error(ProblemDetails? problemdetails)
@@ -100,6 +100,6 @@ namespace Mikroservice.web.Services
             };
 
         }
-  
+
     }
 }

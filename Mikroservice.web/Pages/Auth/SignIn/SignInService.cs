@@ -35,7 +35,8 @@ namespace Mikroservice.web.Pages.Auth.SignIn
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
 
-            await httpContextAccessor.HttpContext!.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authenticationProperties);
+            await httpContextAccessor.HttpContext!
+                .SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authenticationProperties);
 
 
             return ServiceResult.Success();
