@@ -194,12 +194,21 @@ services:
       context: .
       dockerfile: Microservice.Payment.Api/Dockerfile
 
+  # # mikroservice.web:
+  # #   image: mikroserviceweb
+  # #   build:
+  # #     context: .
+  # #     dockerfile: Mikroservice.web/Dockerfile
+
   mikroservice.web:
     image: mikroserviceweb
     build:
       context: .
       dockerfile: Mikroservice.web/Dockerfile
-
+    deploy:
+      replicas: 4
+      restart_policy:
+        condition: any
 volumes:
   mongo.db.catalog.volume:
   mongo.db.discount.volume:  
