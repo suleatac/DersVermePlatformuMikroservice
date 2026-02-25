@@ -1,10 +1,7 @@
-services:
-  # microservice.catalog.api:
-  #   image: ${DOCKER_REGISTRY-}microservicecatalogapi
-  #   build:
-  #     context: .
-  #     dockerfile: Microservice.Catalog.Api/Dockerfile
+version: "3.9"
 
+services:
+  # MongoDB Catalog
   mongo.db.catalog:
     restart: always
     image: mongo:8.0-rc
@@ -15,7 +12,8 @@ services:
     ports:
       - "27030:27017"
     volumes:
-      - mongo.db.catalog.volume:/data/db
+      - /home/suleatac/docker/docker_data/mongo/catalog:/data/db
+
   mongo.db.catalog.ui:
     image: mongo-express:1.0.2-20-alpine3.19
     container_name: mongo.db.catalog.ui.container
@@ -27,6 +25,8 @@ services:
     environment:
       ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo.db.catalog:27017/
       ME_CONFIG_BASICAUTH: false
+
+  # MongoDB Discount
   mongo.db.discount:
     restart: always
     image: mongo:8.0-rc
@@ -37,7 +37,8 @@ services:
     ports:
       - "27034:27017"
     volumes:
-      - mongo.db.discount.volume:/data/db
+      - /home/suleatac/docker/docker_data/mongo/discount:/data/db
+
   mongo.db.discount.ui:
     image: mongo-express:1.0.2-20-alpine3.19
     container_name: mongo.db.discount.ui.container
@@ -49,6 +50,8 @@ services:
     environment:
       ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo.db.discount:27017/
       ME_CONFIG_BASICAUTH: false
+
+  # Redis
   redis.db.basket:
     restart: always
     image: redis:7.0-alpine
@@ -57,7 +60,8 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - redis.db.basket.volume:/data
+      - /home/suleatac/docker/docker_data/redis/basket:/data
+
   redis.db.basket.ui:
     image: rediscommander/redis-commander:latest
     container_name: redis.db.basket.ui.container
@@ -72,14 +76,16 @@ services:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
       HTTP_USER: ${REDIS_UI_USERNAME}
       HTTP_PASSWORD: ${REDIS_UI_PASSWORD}
+
+  # SQL Server
   sqlserver.db.order:
     restart: always
-    user: root # user: "1000:1000" # SQL Server needs to run with its own permissions
+    user: root
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: sqlserver.db.order.container
     environment:
-     SA_PASSWORD: "${MSSQL_SA_PASSWORD}"
-     ACCEPT_EULA: "Y"
+      SA_PASSWORD: "${MSSQL_SA_PASSWORD}"
+      ACCEPT_EULA: "Y"
     healthcheck:
       test: >
         /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${MSSQL_SA_PASSWORD}" -Q "SELECT 1" -b -o /dev/null
@@ -90,12 +96,31 @@ services:
     ports:
       - "1433:1433"
     volumes:
-      - sqlserver.db.order.volume:/var/opt/mssql
+      - /home/suleatac/docker/docker_data/sqlserver/order:/var/opt/mssql
+
+  # Postgres & Keycloak
+  postgres.db.keycloak:
+    restart: always
+    image: postgres:16.2
+    container_name: postgres.db.keycloak.container
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - /home/suleatac/docker/docker_data/postgres/keycloak:/var/lib/postgresql/data
+
   keycloak:
     restart: always
     container_name: keycloak.container
     image: quay.io/keycloak/keycloak:25.0
     command: start-dev
+    depends_on:
+      - postgres.db.keycloak
+    ports:
+      - "8081:8080"
     environment:
       KC_HOSTNAME_PORT: 8080
       KC_HOSTNAME_STRICT_BACKCHANNEL: false
@@ -109,24 +134,9 @@ services:
       KC_DB_URL: jdbc:postgresql://postgres.db.keycloak/${POSTGRES_DB}
       KC_DB_USERNAME: ${POSTGRES_USER}
       KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
-    ports:
-      - "8081:8080"
     volumes:
-      - keycloak-data:/opt/keycloak/data  
-    depends_on:
-      - postgres.db.keycloak
-  postgres.db.keycloak:
-    restart: always
-    image: postgres:16.2
-    container_name: postgres.db.keycloak.container
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    ports:
-      - "5432:5432"
-    volumes:
-      -  postgres.db.keycloak.volume:/var/lib/postgresql/data
+      - /home/suleatac/docker/docker_data/keycloak:/opt/keycloak/data
+
   postgres.db.keycloak.ui:
     restart: always
     image: dpage/pgadmin4
@@ -137,7 +147,8 @@ services:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     volumes:
-      - postgres.db.keycloak.ui.data:/var/lib/pgadmin
+      - /home/suleatac/docker/docker_data/pgadmin:/var/lib/pgadmin
+
   rabbitmq:
     restart: always
     image: rabbitmq:3.13.7-management
@@ -149,9 +160,9 @@ services:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
- 
-      
+      - /home/suleatac/docker/docker_data/rabbitmq:/var/lib/rabbitmq
+
+# Microservices (image build veya push et)
   microservice.basket.api:
     image: microservicebasketapi
     build:
@@ -199,23 +210,3 @@ services:
     build:
       context: .
       dockerfile: Mikroservice.web/Dockerfile
-
-volumes:
-  mongo.db.catalog.volume:
-  mongo.db.discount.volume:  
-  redis.db.basket.volume:    
-  sqlserver.db.order.volume: 
-  postgres.db.keycloak.volume:
-  postgres.db.keycloak.ui.data:
-  keycloak-data:
-  rabbitmq_data:
-  
-
-
-
-
-
-
-
-
-
