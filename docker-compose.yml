@@ -1,85 +1,95 @@
-services:
-  # microservice.catalog.api:
-  #   image: ${DOCKER_REGISTRY-}microservicecatalogapi
-  #   build:
-  #     context: .
-  #     dockerfile: Microservice.Catalog.Api/Dockerfile
+version: "3.9"
 
-  mongo.db.catalog:
-    restart: always
+services:
+  # MongoDB Catalog
+  mongo_db_catalog:
     image: mongo:8.0-rc
-    container_name: mongo.db.catalog.container
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
     ports:
       - "27030:27017"
     volumes:
-      - mongo.db.catalog.volume:/data/db
-  mongo.db.catalog.ui:
+      - mongo_db_catalog_volume:/data/db
+    deploy:
+      restart_policy:
+        condition: any
+
+  mongo_db_catalog_ui:
     image: mongo-express:1.0.2-20-alpine3.19
-    container_name: mongo.db.catalog.ui.container
-    restart: always
     depends_on:
-      - mongo.db.catalog
+      - mongo_db_catalog
     ports:
       - "27032:8081"
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo.db.catalog:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo_db_catalog:27017/
       ME_CONFIG_BASICAUTH: "false"
-  mongo.db.discount:
-    restart: always
+    deploy:
+      restart_policy:
+        condition: any
+
+  # MongoDB Discount
+  mongo_db_discount:
     image: mongo:8.0-rc
-    container_name: mongo.db.discount.container
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
     ports:
       - "27034:27017"
     volumes:
-      - mongo.db.discount.volume:/data/db
-  mongo.db.discount.ui:
+      - mongo_db_discount_volume:/data/db
+    deploy:
+      restart_policy:
+        condition: any
+
+  mongo_db_discount_ui:
     image: mongo-express:1.0.2-20-alpine3.19
-    container_name: mongo.db.discount.ui.container
-    restart: always
     depends_on:
-      - mongo.db.discount
+      - mongo_db_discount
     ports:
       - "27036:8081"
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo.db.discount:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo_db_discount:27017/
       ME_CONFIG_BASICAUTH: "false"
-  redis.db.basket:
-    restart: always
+    deploy:
+      restart_policy:
+        condition: any
+
+  # Redis
+  redis_db_basket:
     image: redis:7.0-alpine
-    container_name: redis.db.container
     command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
     ports:
       - "6379:6379"
     volumes:
-      - redis.db.basket.volume:/data
-  redis.db.basket.ui:
+      - redis_db_basket_volume:/data
+    deploy:
+      restart_policy:
+        condition: any
+
+  redis_db_basket_ui:
     image: rediscommander/redis-commander:latest
-    container_name: redis.db.basket.ui.container
-    restart: always
     depends_on:
-      - redis.db.basket
+      - redis_db_basket
     ports:
       - "27033:8081"
     environment:
-      REDIS_HOST: redis.db.basket
+      REDIS_HOST: redis_db_basket
       REDIS_PORT: 6379
       REDIS_PASSWORD: ${REDIS_PASSWORD}
       HTTP_USER: ${REDIS_UI_USERNAME}
       HTTP_PASSWORD: ${REDIS_UI_PASSWORD}
-  sqlserver.db.order:
-    restart: always
-    user: root # user: "1000:1000" # SQL Server needs to run with its own permissions
+    deploy:
+      restart_policy:
+        condition: any
+
+  # SQL Server
+  sqlserver_db_order:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sqlserver.db.order.container
+    user: root
     environment:
-     SA_PASSWORD: "${MSSQL_SA_PASSWORD}"
-     ACCEPT_EULA: "Y"
+      SA_PASSWORD: "${MSSQL_SA_PASSWORD}"
+      ACCEPT_EULA: "Y"
     healthcheck:
       test: >
         /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${MSSQL_SA_PASSWORD}" -Q "SELECT 1" -b -o /dev/null
@@ -90,12 +100,33 @@ services:
     ports:
       - "1433:1433"
     volumes:
-      - sqlserver.db.order.volume:/var/opt/mssql
+      - sqlserver_db_order_volume:/var/opt/mssql
+    deploy:
+      restart_policy:
+        condition: any
+
+  # Keycloak & Postgres
+  postgres_db_keycloak:
+    image: postgres:16.2
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_db_keycloak_volume:/var/lib/postgresql/data
+    deploy:
+      restart_policy:
+        condition: any
+
   keycloak:
-    restart: always
-    container_name: keycloak.container
     image: quay.io/keycloak/keycloak:25.0
     command: start-dev
+    depends_on:
+      - postgres_db_keycloak
+    ports:
+      - "8081:8080"
     environment:
       KC_HOSTNAME_PORT: 8080
       KC_HOSTNAME_STRICT_BACKCHANNEL: "false"
@@ -106,42 +137,33 @@ services:
       KC_DB: postgres
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      KC_DB_URL: jdbc:postgresql://postgres.db.keycloak/${POSTGRES_DB}
+      KC_DB_URL: jdbc:postgresql://postgres_db_keycloak/${POSTGRES_DB}
       KC_DB_USERNAME: ${POSTGRES_USER}
       KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
-    ports:
-      - "8081:8080"
     volumes:
-      - keycloak-data:/opt/keycloak/data  
-    depends_on:
-      - postgres.db.keycloak
-  postgres.db.keycloak:
-    restart: always
-    image: postgres:16.2
-    container_name: postgres.db.keycloak.container
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    ports:
-      - "5432:5432"
-    volumes:
-      -  postgres.db.keycloak.volume:/var/lib/postgresql/data
-  postgres.db.keycloak.ui:
-    restart: always
+      - keycloak_data:/opt/keycloak/data
+    deploy:
+      restart_policy:
+        condition: any
+
+  postgres_db_keycloak_ui:
     image: dpage/pgadmin4
-    container_name: postgres.db.keycloak.ui.container
+    depends_on:
+      - postgres_db_keycloak
     ports:
       - "8888:80"
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     volumes:
-      - postgres.db.keycloak.ui.data:/var/lib/pgadmin
+      - postgres_db_keycloak_ui_data:/var/lib/pgadmin
+    deploy:
+      restart_policy:
+        condition: any
+
+  # RabbitMQ
   rabbitmq:
-    restart: always
     image: rabbitmq:3.13.7-management
-    container_name: rabbitmq.container
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -150,81 +172,73 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
- 
-      
-  microservice.basket.api:
+    deploy:
+      restart_policy:
+        condition: any
+
+  # Microservices (stack deploy ile build çalışmaz, önceden image push etmelisin)
+  microservice_basket_api:
     image: microservicebasketapi
-    build:
-      context: .
-      dockerfile: Microservice.Basket.Api/Dockerfile
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
 
-  microservice.catalog.api:
+  microservice_catalog_api:
     image: microservicecatalogapi
-    build:
-      context: .
-      dockerfile: Microservice.Catalog.Api/Dockerfile
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
 
-  mikroservice.discount.api:
+  mikroservice_discount_api:
     image: mikroservicediscountapi
-    build:
-      context: .
-      dockerfile: Mikroservice.Discount.Api/Dockerfile
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
 
-  microservice.file.api:
+  microservice_file_api:
     image: microservicefileapi
-    build:
-      context: .
-      dockerfile: Microservice.File.Api/Dockerfile
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
 
-  microservice.gateway:
+  microservice_gateway:
     image: microservicegateway
-    build:
-      context: .
-      dockerfile: Microservice.Gateway/Dockerfile
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
 
-  mikroservice.order.api:
+  mikroservice_order_api:
     image: mikroserviceorderapi
-    build:
-      context: .
-      dockerfile: Mikroservice.Order.Api/Dockerfile
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
 
-  microservice.payment.api:
+  microservice_payment_api:
     image: microservicepaymentapi
-    build:
-      context: .
-      dockerfile: Microservice.Payment.Api/Dockerfile
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
 
-  # # mikroservice.web:
-  # #   image: mikroserviceweb
-  # #   build:
-  # #     context: .
-  # #     dockerfile: Mikroservice.web/Dockerfile
-
-  mikroservice.web:
+  mikroservice_web:
     image: mikroserviceweb
-    build:
-      context: .
-      dockerfile: Mikroservice.web/Dockerfile
     deploy:
       replicas: 4
       restart_policy:
         condition: any
+
 volumes:
-  mongo.db.catalog.volume:
-  mongo.db.discount.volume:  
-  redis.db.basket.volume:    
-  sqlserver.db.order.volume: 
-  postgres.db.keycloak.volume:
-  postgres.db.keycloak.ui.data:
-  keycloak-data:
+  mongo_db_catalog_volume:
+  mongo_db_discount_volume:
+  redis_db_basket_volume:
+  sqlserver_db_order_volume:
+  postgres_db_keycloak_volume:
+  postgres_db_keycloak_ui_data:
+  keycloak_data:
   rabbitmq_data:
-  
-
-
-
-
-
-
-
-
-
