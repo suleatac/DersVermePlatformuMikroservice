@@ -26,7 +26,7 @@ services:
       - "27032:8081"
     environment:
       ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo.db.catalog:27017/
-      ME_CONFIG_BASICAUTH: false
+      ME_CONFIG_BASICAUTH: "false"
   mongo.db.discount:
     restart: always
     image: mongo:8.0-rc
@@ -48,7 +48,7 @@ services:
       - "27036:8081"
     environment:
       ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo.db.discount:27017/
-      ME_CONFIG_BASICAUTH: false
+      ME_CONFIG_BASICAUTH: "false"
   redis.db.basket:
     restart: always
     image: redis:7.0-alpine
